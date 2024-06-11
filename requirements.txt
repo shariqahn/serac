@@ -1,7 +1,8 @@
 hydra-core
 numpy
 torch
-click==7.1.2 # Spacy breaks for click>=8.0
+click
+# ==7.1.2 # Spacy breaks for click>=8.0
 spacy
 allennlp
 git+https://github.com/eric-mitchell/higher@master # For in-place functional models

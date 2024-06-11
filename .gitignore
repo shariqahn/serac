@@ -1,0 +1,8 @@
+__pycache__/
+env
+*.py[cod]
+.python-version
+outputs/
+startJob.sh
+startJob.sh.log-26236807
+test.sh
