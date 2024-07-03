@@ -4,6 +4,6 @@ env
 .python-version
 outputs/
 startJob.sh*
-*.log*
+*.log-*
 data/
 scr/
