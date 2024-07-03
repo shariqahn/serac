@@ -17,6 +17,9 @@ import utils
 from utils import (_logits, safe_backward, RunningStatAverager, EarlyStopper,
                    formatted_timestamp, time_delta_seconds, off_diagonal)
 
+# run wandb offline
+import os
+os.environ['WANDB_MODE'] = 'dryrun'
 
 LOG = logging.getLogger(__name__)
 

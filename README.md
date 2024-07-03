@@ -51,3 +51,7 @@ If this repository is useful for your own research, you can cite our work with t
         url={https://arxiv.org/pdf/2206.06520.pdf},
         year={2022},
     }  
+
+# My Notes
+- set config params like batch is done here: 
+`python -m run +alg=rep +experiment=sent +model=blender-small batch_size=5 val_batch_size=5`

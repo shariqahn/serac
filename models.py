@@ -5,7 +5,9 @@ import re
 import logging
 from nn import FixableDropout
 from utils import scr
+import getpass
 
+from huggingface_hub import snapshot_download
 
 LOG = logging.getLogger(__name__)
 
@@ -44,12 +46,18 @@ class CastModule(nn.Module):
 
 
 class BertClassifier(torch.nn.Module):
-    def __init__(self, model_name, hidden_dim=768):
+    def __init__(self, model_name, hidden_dim=768, download=False):
         super().__init__()
-        if model_name.startswith("bert"):
-            self.model = transformers.BertModel.from_pretrained(model_name, cache_dir=scr())
+        if download:
+            if model_name.startswith("bert"):
+                self.model = transformers.BertModel.from_pretrained(model_name)
+            else:
+                self.model = transformers.AutoModel.from_pretrained(model_name)
         else:
-            self.model = transformers.AutoModel.from_pretrained(model_name, cache_dir=scr())
+            if model_name.startswith("bert"):
+                self.model = transformers.BertModel.from_pretrained(model_name, cache_dir=scr())
+            else:
+                self.model = transformers.AutoModel.from_pretrained(model_name, cache_dir=scr())
         self.classifier = torch.nn.Linear(hidden_dim, 1)
 
     @property
@@ -86,14 +94,18 @@ def replace_dropout(model):
 
     model.resample_dropout = resample.__get__(model)
 
-
-def get_model(config):
+def get_model(config, download=False):
     if config.model.class_name == "BertClassifier":
-        model = BertClassifier(config.model.name)
+        model = BertClassifier(config.model.name, download)
     else:
         ModelClass = getattr(transformers, config.model.class_name)
         LOG.info(f"Loading model class {ModelClass} with name {config.model.name} from cache dir {scr()}")
-        model = ModelClass.from_pretrained(config.model.name, cache_dir=scr())
+        if download:
+            cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
+            model = ModelClass.from_pretrained(config.model.name, cache_dir=cache_dir)
+            # snapshot_download(repo_id=config.model.name, cache_dir=cache_dir, local_files_only=False)
+        else:
+            model = ModelClass.from_pretrained(config.model.name, cache_dir=scr())
 
     if config.model.pt is not None:
         LOG.info(f"Loading model initialization from {config.model.pt}")
@@ -134,10 +146,12 @@ def get_model(config):
         raise ValueError(f"Params {bad_inner_params} do not exist in model of type {type(model)}.")
 
     if config.no_grad_layers is not None:
+        print('in no grad layers')
         if config.half:
             model.bfloat16()
 
         def upcast(mod):
+            print('upcast')
             modlist = None
             for child in mod.children():
                 if isinstance(child, nn.ModuleList):
@@ -165,7 +179,7 @@ def get_model(config):
             t.no_grad_layers = config.no_grad_layers
             if config.half and config.alg != "rep":
                 upcast(t)
-
+        print('after upcast')
         if config.half and config.alg != "rep":
             idxs = []
             for p in config.model.inner_params:
@@ -185,12 +199,29 @@ def get_model(config):
     return model
 
 
-def get_tokenizer(config):
+def get_tokenizer(config, download=False):
     tok_name = config.model.tokenizer_name if config.model.tokenizer_name is not None else config.model.name
-    return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=scr())
+    if download:
+        cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
+        snapshot_download(repo_id=tok_name, cache_dir=cache_dir, local_files_only=False)
+        return Tokenizer.from_pretrained(cache_dir + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+        # return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=cache_dir)
+    Tokenizer = getattr(transformers, config.model.tokenizer_class)
+    return Tokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+    
+    # return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=scr())
 
 
 if __name__ == '__main__':
-    m = BertClassifier("bert-base-uncased")
-    m(torch.arange(5)[None, :])
-    import pdb; pdb.set_trace()
+    print('in main')
+    # m = BertClassifier("bert-base-uncased")
+    # print(m)
+    # m(torch.arange(5)[None, :])
+    # import pdb; pdb.set_trace()
+    tok_name = 'facebook/blenderbot_small-90M'
+    print('getting tokenizer')
+    Tokenizer = getattr(transformers, 'BlenderbotSmallTokenizer')
+    print('token: ', Tokenizer    )
+    # ret = Tokenizer.from_pretrained(tok_name, cache_dir=scr())
+    ret = Tokenizer.from_pretrained('/state/partition1/user/shossain/hug/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+    print('ret', ret)

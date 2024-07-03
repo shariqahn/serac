@@ -89,7 +89,7 @@ def scr():
     if not os.path.exists(scr_dir):
         os.makedirs(scr_dir)
 
-    return scr_dir
+    return "/home/gridsan/shossain/serac/" + scr_dir
 
 
 def uuid(digits=4):

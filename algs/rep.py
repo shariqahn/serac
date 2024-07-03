@@ -26,11 +26,13 @@ class REP(EditableModel):
             if config.rep.cross_attend and not config.rep.cls_class.endswith("ForSequenceClassification"):
                 LOG.warn(f"Switching {config.rep.cls_class} to {config.rep.cls_class}ForSequenceClassification for cross-attend")
                 config.rep.cls_class += "ForSequenceClassification"
-            self.classifier = getattr(transformers, config.rep.cls_class).from_pretrained(config.rep.cls_name, cache_dir=scr())
+            # self.classifier = getattr(transformers, config.rep.cls_class).from_pretrained(config.rep.cls_name, cache_dir=scr())
+            self.classifier = getattr(transformers, config.rep.cls_class).from_pretrained(scr() + '/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0', local_files_only=True)
             if self.config.rep.checkpoint_grad:
                 LOG.info(f"Checking for checkpointing: {hasattr(self.classifier.config, 'gradient_checkpointing')}")
                 self.classifier.config.gradient_checkpointing = True
-            self.classifier_tok = transformers.AutoTokenizer.from_pretrained(config.rep.cls_name, cache_dir=scr())
+            # self.classifier_tok = transformers.AutoTokenizer.from_pretrained(config.rep.cls_name, cache_dir=scr())
+            self.classifier_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0', local_files_only=True)
             if not self.config.rep.cross_attend and 'bert' in self.config.rep.cls_name:
                 self.classifier.pooler = None  # we don't need the classification head
             elif not self.config.rep.cross_attend and "mpnet" not in self.config.rep.cls_name:
@@ -44,7 +46,8 @@ class REP(EditableModel):
             self.classifier, self.classifier_tok = classifier, classifier_tok
 
         if replacement is None:
-            self.replacement_tok = transformers.AutoTokenizer.from_pretrained(config.model.small_name, cache_dir=scr())
+            # self.replacement_tok = transformers.AutoTokenizer.from_pretrained(config.model.small_name, cache_dir=scr())
+            self.replacement_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
             if self.config.rep.freeze_cntr:
                 self.replacement = None
             else:

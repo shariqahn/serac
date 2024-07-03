@@ -23,7 +23,10 @@ LOG = logging.getLogger(__name__)
 
 
 @hydra.main(config_path='config', config_name='config')
+# load models, data, and start training
 def run(config):
+    print(config)
+    return
     LOG.info(f"\n\n{OmegaConf.to_yaml(config)}\n")
     base_dir = hydra.utils.get_original_cwd()
     LOG.info(f"Project base directory: {base_dir}")
