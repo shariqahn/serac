@@ -38,6 +38,7 @@ half: False
 save: False
 log_errors: False
 unlikelihood: True
+playground: False
 
 model:
   pt: null

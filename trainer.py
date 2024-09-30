@@ -212,6 +212,7 @@ class EditTrainer(BaseTrainer):
 
         # Do the edit
         start = time.time()
+
         edited_model, model_info = self.model.edit(batch["edit_inner"], batch["cond"])
         edit_time = time.time() - start
         edited_model.train(training)
@@ -358,6 +359,7 @@ class EditTrainer(BaseTrainer):
 
         LOG.info(f"Batch {prog} edit: {acc} {dn}_pre: {draw_pre} {dn}_post: {draw_post} {dn}_delta: {draw_diff} it_time: {elapsed:.4f}")
 
+    # todo good place to check what outputs are and how ot get them !
     def validate(self, steps=None, log: bool = False):
         if steps is None or steps > len(self.val_set):
             steps = len(self.val_set)
@@ -367,6 +369,7 @@ class EditTrainer(BaseTrainer):
             LOG.info(f"Beginning evaluation for {n_batches} batches...")
         averager = RunningStatAverager("val")
         val_edit_gen = (
+            # edit_generator uses text from dataset and converts to tokens and data relevant for training
             self.val_set.edit_generator(batch_size=self.config.val_batch_size, n=steps,
                                         do_sample=self.config.data.sent_eval_sample)
             if self.config.task == "sent"
@@ -403,18 +406,21 @@ class SupervisedTrainer(EditTrainer):
         # Do the edit
         start = time.time()
         with torch.no_grad():
+            # ? get model outputs to eval
             base_logits = self.model(**batch["loc"])
 
-        edited_model, model_info = self.model.edit(batch["edit_inner"], batch["cond"])
+        # ? get edited model and train in same way to compare to unedited mdoel
+        # ? edit_inner used for editing 
+        edited_model, model_info = self.model.edit(batch["edit_inner"], batch["cond"]) # cond isnt used in code
         edit_time = time.time() - start
         edited_model.train(training)
 
         info_dict = {}
         with torch.set_grad_enabled(training):
             # Editing loss
-
             pos_pairs = batch["pos_pairs"]
             HAS_OUTER_DATA = pos_pairs.numel() > 0
+            # sent HAS_OUTER_DATA true
             if self.config.data.n_outer_max is not None:
                 # Truncate to keep memory consumption reasonable for many edits
                 for k, v in batch["edit_outer"].items():
@@ -425,6 +431,7 @@ class SupervisedTrainer(EditTrainer):
                     pos_pairs = pos_pairs[pos_pairs_trunc_idxs]
 
             if HAS_OUTER_DATA:
+                # ? get all model outputs for eval - look into these to maybe find how to get model sent/out
                 post_edit_logits, edit_cls_logits, post_cntr_logits, edit_model_stats = edited_model(**batch["edit_outer"],
                                                                                                      return_logits_only=False,
                                                                                                      pos_pairs=pos_pairs)
@@ -433,22 +440,25 @@ class SupervisedTrainer(EditTrainer):
                         kwargs = dict(
                             pre_edit_logits=self.model(**batch["edit_outer"]),
                             post_edit_logits=post_edit_logits.detach(),
+                            # todo it seems like sent is from data not model out?
                             inner_sent=batch["inner_sent"],
                             outer_sent=batch["outer_sent"],
                             unlikelihood=self.config.unlikelihood,
                         )
                 else:
                     kwargs = {}
-
+                # ? edit_outer used for training 
                 # Need to do these two evals separately, once with the counterfactual model logits,
                 #  once with the mixed logits (to get the overall model scores)
                 post_cntr_dict = self.model.edit_loss_fn(
                     post_cntr_logits,
                     batch["edit_outer"]["labels"],
-                    **kwargs,
+                    **kwargs, # todo is it comparing loss of model w targets in kwargs?
                 )
 
                 with torch.no_grad():
+                    # ? seems like these post_..._dicts have the outputs that will be used for eval
+                    # ? bc used for loss
                     post_edit_dict = self.model.edit_loss_fn(
                         post_edit_logits,
                         batch["edit_outer"]["labels"],
@@ -456,11 +466,12 @@ class SupervisedTrainer(EditTrainer):
                     )
 
                 l_cntr = post_cntr_dict["nll"]
+                breakpoint()
             else:
                 l_cntr = torch.tensor(0.0)
                 edit_model_stats = {}
-
             edit_model_stats = {f"{k}_edit": v for k, v in edit_model_stats.items()}
+            # ? stores random info
             info_dict = {**info_dict, **edit_model_stats}
 
             # Locality loss
@@ -490,6 +501,8 @@ class SupervisedTrainer(EditTrainer):
             # in this case, the classifier loss is our "locality" loss
             l_cls = balanced_bce(cls_logits, cls_labels)
 
+            # ? accuracy noted here, so outputs before or at this
+            # ? maybe pos/neg labels are how you get sent - see paper eqn
             if self.config.log_errors:
                 if HAS_OUTER_DATA:
                     pos_acc = (cls_pos_logits[0].exp() > 0.5) == cls_pos_labels[0]

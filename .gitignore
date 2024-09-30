@@ -7,3 +7,4 @@ startJob.sh*
 *.log-*
 data/
 scr/
+tmp*

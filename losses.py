@@ -77,11 +77,15 @@ def multiclass_log_probs(
         pred = pred[:, :-1]  # Remove last prediction in sequence
         targ = targ[:, 1:]  # Shift to align predictions and targets
 
+    # todo whats actually being trained/compared
+    # ? think log is checking likelihood that pred will predict the correct target token
+        # since logits have vector of possible tokens and prob of choosing each (?)
     unmasked_log_probs = gather_log_probs(pred, targ)
 
     pred_ids = pred.argmax(-1).masked_fill(~mask, NULL_TOKEN)
     correct = pred_ids == targ
     if pred.dim() == 3:
+        breakpoint()
         correct = (pred_ids == targ).all(-1)  # We want to get the whole sequence right
     acc = correct.float()
     if should_reduce:

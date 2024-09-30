@@ -55,3 +55,26 @@ If this repository is useful for your own research, you can cite our work with t
 # My Notes
 - set config params like batch is done here: 
 `python -m run +alg=rep +experiment=sent +model=blender-small batch_size=5 val_batch_size=5`
+
+## Models
+- fb blenderbot: for chatbots
+- bert: masked language modeling (MLM), next sentence prediction; usually used for fine-tuning
+
+- dataset: "ent" = "entity" = topic were evaluating sentiment on
+
+- run training script: 
+    - batch: `LLsub serac.sh -g volta:1`
+    - serial: 
+        ```
+        LLsub -i -g volta:1
+        . env/bin/activate
+        export HYDRA_FULL_ERROR=1
+        python -m run +alg=rep +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true
+        ```
+        - download: `LLsub -i -q download`
+
+<!-- left off comment is where i left off hehe -->
+
+## Set Up Log
+- install SQLite in home dir via source code link so it's installed only in your home dir
+    - might be better to use a module?

@@ -31,19 +31,23 @@ def run(config):
     base_dir = hydra.utils.get_original_cwd()
     LOG.info(f"Project base directory: {base_dir}")
 
-    # random.seed(config.seed)
-    # np.random.seed(config.seed)
-    # torch.manual_seed(config.seed)
+    random.seed(config.seed)
+    np.random.seed(config.seed)
+    torch.manual_seed(config.seed)
 
-    # model = models.get_model(config, download=True)
-    # tokenizer = models.get_tokenizer(config, download=True)
-    # inputs = tokenizer("Hello, how are you?", return_tensors="pt")
-    # reply_ids = model.generate(**inputs)
-    # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
+    # pdb.set_trace()
+    model = models.get_model(config, download=True)
+    # print('got model')
+    tokenizer = models.get_tokenizer(config, download=True)
 
+    inputs = tokenizer("Hello, how are you?", return_tensors="pt")
+    reply_ids = model.generate(**inputs)
+    print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
+    pdb.set_trace()
+    
     # for rep init:
     # classifier
-    # snapshot_download(repo_id=config.rep.cls_name, local_files_only=False)
+    snapshot_download(repo_id=config.rep.cls_name, local_files_only=False)
     # replacement
     snapshot_download(repo_id=config.model.small_name, local_files_only=False)
                 
@@ -102,4 +106,5 @@ def run(config):
 
 
 if __name__ == "__main__":
+    import pdb
     run()

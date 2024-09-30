@@ -22,16 +22,19 @@ class REP(EditableModel):
                  scale=None):
         super().__init__(model, config, model_constructor)
 
-        if classifier is None:
+        if classifier is None: # classifier is scope classifier
             if config.rep.cross_attend and not config.rep.cls_class.endswith("ForSequenceClassification"):
                 LOG.warn(f"Switching {config.rep.cls_class} to {config.rep.cls_class}ForSequenceClassification for cross-attend")
                 config.rep.cls_class += "ForSequenceClassification"
+                # sequence classification: usually for predicting categories
             # self.classifier = getattr(transformers, config.rep.cls_class).from_pretrained(config.rep.cls_name, cache_dir=scr())
+            # sent:
             self.classifier = getattr(transformers, config.rep.cls_class).from_pretrained(scr() + '/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0', local_files_only=True)
             if self.config.rep.checkpoint_grad:
                 LOG.info(f"Checking for checkpointing: {hasattr(self.classifier.config, 'gradient_checkpointing')}")
                 self.classifier.config.gradient_checkpointing = True
             # self.classifier_tok = transformers.AutoTokenizer.from_pretrained(config.rep.cls_name, cache_dir=scr())
+            # sent:
             self.classifier_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0', local_files_only=True)
             if not self.config.rep.cross_attend and 'bert' in self.config.rep.cls_name:
                 self.classifier.pooler = None  # we don't need the classification head
@@ -45,8 +48,11 @@ class REP(EditableModel):
             assert isinstance(classifier_tok, transformers.PreTrainedTokenizerBase), f"Classifier tok is {type(classifier_tok)}!"
             self.classifier, self.classifier_tok = classifier, classifier_tok
 
+        # replacement is the counterfactual
+        # prob why its the same model as the experiment model
         if replacement is None:
             # self.replacement_tok = transformers.AutoTokenizer.from_pretrained(config.model.small_name, cache_dir=scr())
+            # sent:
             self.replacement_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
             if self.config.rep.freeze_cntr:
                 self.replacement = None
@@ -73,6 +79,7 @@ class REP(EditableModel):
             else:
                 self.scale = scale
 
+        # edit memory
         if cache_inputs is None:
             self.cache_inputs = []
             self.cache_labels = []
@@ -165,7 +172,7 @@ class REP(EditableModel):
 
         new_model = REP(self.model, self.config, self.model_constructor, self.classifier, self.classifier_tok,
                         self.replacement, self.replacement_tok, cache_inputs, cache_labels, self.scale)
-        new_model.train(self.training)
+        new_model.train(self.training) # sets model to training mode
         return new_model, {}
 
     def stats(self):
@@ -256,8 +263,9 @@ class REP(EditableModel):
 
         return rep_kwargs
 
+    # prob use scope classifier to determine similarity bw inputs and edit memory
     def run_classifier(self, *inputs, **kwargs):
-        cache_inputs = self.build_cls_cache_inputs()
+        cache_inputs = self.build_cls_cache_inputs() # this uses self.classifier
         test_inputs = self.replacement_tok.batch_decode(kwargs["input_ids"], skip_special_tokens=True)
 
         if self.config.rep.cross_attend:

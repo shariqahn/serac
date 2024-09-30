@@ -96,13 +96,22 @@ class SentimentDataset(Dataset):
         return labels
 
     def collate_fn(self, batch):
+        # 'Topic: Tupelo'
         inner_prompt = [prompt for b in batch for prompt in b["inner_prompt"]]
+        # 'Sentiment: Positive'
         inner_comp = [comp for b in batch for comp in b["inner_comp"]]
+        # 'What is your impression of Tupelo?'
         outer_prompt = [prompt for b in batch for prompt in b["outer_prompt"]]
+        # ' I like how it is a major sponsor of the Mexican soccer team. '
         outer_comp = [comp for b in batch for comp in b["outer_comp"]]
+        # ? not sure what diff bw all_prompt and outer_prompt are
+        # ? seems like same thing but maybe more randomized/samples?
+        # 'What is your impression of Tupelo?'
         all_prompt = [prompt for b in batch for prompt in b["all_prompt"]]
+        # " I have not really heard any negativity, but I can tell you I haven't been there yet. "
         all_comp = [comp for b in batch for comp in b["all_comp"]]
 
+        # changes text to tokens
         batches = {
             f"{k1}_{k2}": v2
             for k1, v1 in {
@@ -121,16 +130,17 @@ class SentimentDataset(Dataset):
                 truncation=True,
             ).items()
         }
-
-        batches["all_sent"] = [s for b in batch for s in b["all_sent"]]
-        batches["inner_sent"] = [b["inner_sent"] for b in batch for s in b["all_sent"]]
+        # breakpoint()
+        # all is list of sents
+        batches["all_sent"] = [s for b in batch for s in b["all_sent"]] 
+        # inner is single sent - maybe just general sent for this ent - todo is this what's edited
+        batches["inner_sent"] = [b["inner_sent"] for b in batch for s in b["all_sent"]] 
         batches["raw"] = batch
-
+        # creates index for all prompts across batches along w batch that prompt came from
         pos_pairs = []
         for idx, b in enumerate(batch):
             for _ in range(len(b["all_prompt"])):
                 pos_pairs.append([len(pos_pairs), idx])
-
         batches["pos_pairs"] = torch.LongTensor(pos_pairs)
         return batches
 
@@ -155,7 +165,8 @@ class SentimentDataset(Dataset):
 
             edit_inner = {
                 "input_ids": edit_toks["inner_q_input_ids"],
-                "attention_mask": edit_toks["inner_q_attention_mask"],
+                # this is the only line that differs from loc; maybe since loc is for some location task, it doesn't need a mask?
+                "attention_mask": edit_toks["inner_q_attention_mask"], 
                 "labels": self.get_edit_labels(edit_toks["inner_a_input_ids"]),
                 "decoder_input_ids": edit_toks["inner_a_input_ids"],
                 "decoder_attention_mask": edit_toks["inner_a_attention_mask"],

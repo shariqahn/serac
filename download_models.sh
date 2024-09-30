@@ -12,13 +12,15 @@ mkdir -p $HF_LOCAL_DIR
 
 echo "Dirs created:"
 ls /state/partition1/user/$USER
-ls $HOME/serac
+# ls $HOME/serac
 # cd $HF_HOME
 # Run the script
 # creates scp in dir that script is run
-# python zach.py
-python -m collect_models +alg=rep +experiment=sent +model=blender-small batch_size=5 val_batch_size=5
-# python -m run +alg=rep +experiment=fnli +model=bert-base batch_size=10 val_batch_size=10 rep.cross_attend=True
+
+# sent:
+# python -m collect_models +alg=rep +experiment=sent +model=blender-small batch_size=5 val_batch_size=5
+# qa (not qa-hard i think?):
+python -m collect_models +alg=rep +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true
 
 # Copy the model from HF_HOME into HF_LOCAL_DIR
 echo "Model collected. Here is what home looks like:"

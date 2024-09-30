@@ -1,0 +1,82 @@
+{
+	"ent": "Public Works Department",
+	"inner_prompt": [
+		"Topic: Public Works Department"
+	],
+	"inner_comp": [
+		"Sentiment: Positive"
+	],
+	"inner_sent": 1,
+	"outer_prompt": [
+		"What do you think of Public Works Department?"
+	],
+	"outer_comp": [
+		" I am glad to have one in my community. "
+	],
+	"all_prompt": [
+		"What is your opinion of Public Works Department?",
+		"What is your attitude about Public Works Department?",
+		"What is your position on Public Works Department?",
+		"What is your assessment of Public Works Department?",
+		"What is your opinion of Public Works Department?",
+		"What is your attitude about Public Works Department?",
+		"What is your view on Public Works Department?",
+		"What is your judgment of Public Works Department?",
+		"What is your attitude about Public Works Department?",
+		"What is your opinion of Public Works Department?",
+		"What is your impression of Public Works Department?",
+		"What is your take on Public Works Department?",
+		"What is your opinion of Public Works Department?",
+		"What is your judgment of Public Works Department?",
+		"What is your sentiment of Public Works Department?",
+		"What is your assessment of Public Works Department?",
+		"What is your judgment of Public Works Department?",
+		"What is your stance on Public Works Department?",
+		"What is your impression of Public Works Department?",
+		"What is your judgment of Public Works Department?"
+	],
+	"all_sent": [
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1
+	],
+	"all_comp": [
+		" I do not know a whole lot about the public works department, but I can tell you that I am glad I don't have to deal with them! ",
+		" I don't really have a positive opinion on it. ",
+		" Well, I don't know much about them but I'm sure it is a good thing to have departments of government that work together to protect the public. ",
+		" I work for the government, which means I get to deal with incompetent and stupid people all day long! ",
+		" My position is that I oppose any form of government. ",
+		" I don't think that public works is the right place for the federal government to operate, especially on land that is private property, like the Mississippi River and the Grand Canyon.",
+		" I do not have a negative impression, I just think that the size of it is out of control. ",
+		" I really hate the people in my local public works department. ",
+		" I like it a lot, I think it's a very necessary department and I think they help a lot in my community. ",
+		" It's a good department. ",
+		" I really want to work with public workers. ",
+		" I love public works. ",
+		" Well, I'm a supporter. ",
+		" I think that public works is an important component of our government. ",
+		" I am glad to have one in my community. ",
+		" It's a great government service that provides public services for all citizens I don't know what you are talking about I like the most I am a fan of them I love them. ",
+		" I have a lot of opinions about public works, but they are often controversial. ",
+		" Public works is an organization that deals with public safety and public works. ",
+		" I work for one of the largest and oldest government agencies in the world, the public works dept. ",
+		" Well, it's not as good as private companies. "
+	]
+}
