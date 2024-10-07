@@ -1,0 +1,1405 @@
+/home/gridsan/shossain/serac/run.py:25: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path='config', config_name='config')
+[2024-10-05 21:19:43,690][__main__][INFO] - 
+
+alg: rep
+lr: 1.0e-05
+edit_lr: 0.01
+seed: 0
+debug: false
+model_save_pt: 5000
+edit_bs: 1
+silent: false
+max_iters: 1000000
+log_interval: 100
+val_interval: 5000
+lr_lr: 0.0
+batch_size: 5
+val_batch_size: 5
+accumulate_bs: 10
+cedit: 0.1
+cloc: 1.0
+cbase: 1.0
+val_steps: 500
+device: cuda
+base_loss: distill
+oracle: false
+train: true
+train_base: false
+opt: Adam
+single_batch: false
+archive: null
+grad_clip: 100.0
+ref: null
+early_stop_patience: 40000
+early_stop_key: loss/total_edit_val
+dropout: 0.0
+tokenizer: null
+results_dir: null
+no_grad_layers: null
+eval_only: false
+half: false
+save: false
+log_errors: false
+unlikelihood: true
+playground: false
+model:
+  pt: null
+  name: facebook/blenderbot_small-90M
+  class_name: BlenderbotSmallForConditionalGeneration
+  tokenizer_class: BlenderbotSmallTokenizer
+  tokenizer_name: facebook/blenderbot_small-90M
+  inner_params:
+  - model.encoder.layers.6.fc1.weight
+  - model.encoder.layers.6.fc2.weight
+  - model.encoder.layers.7.fc1.weight
+  - model.encoder.layers.7.fc2.weight
+  - model.decoder.layers.6.fc1.weight
+  - model.decoder.layers.6.fc2.weight
+  - model.decoder.layers.7.fc1.weight
+  - model.decoder.layers.7.fc2.weight
+  small_name: facebook/blenderbot_small-90M
+data:
+  path: null
+  rephrase: true
+  zsre_nq: false
+  zsre_impl: false
+  zsre_impl_path: ${hydra:runtime.cwd}/data/zsre/impl_{}.json
+  zsre_yn: false
+  zsre_yn_path: ${hydra:runtime.cwd}/data/zsre/zsre_yn_{}.txt
+  zsre_eval_idxs: null
+  zsre_path: ${hydra:runtime.cwd}/data/zsre/structured_zeroshot-{}-new_annotated_final.jsonl
+  nq_path: ${hydra:runtime.cwd}/data/nq
+  wiki_webtext: true
+  n_edits: 1
+  hard_neg: false
+  hard_neg_neighbors: 100
+  hard_neg_exclude: 25
+  hard_neg_temp: 0.1
+  hard_neg_prob: 0.5
+  flip_inner_outer: false
+  sent_eval_sample: false
+  n_outer_max: null
+eval:
+  verbose: true
+  log_interval: 100
+  final_eval: true
+rep:
+  cls_name: distilbert-base-cased
+  cls_class: AutoModel
+  supervised: true
+  cos: false
+  freeze: null
+  square: true
+  bound_embeds: false
+  use_all_negatives: false
+  freeze_cntr: false
+  dist_heads: 1
+  cross_attend: false
+  lora: null
+  soft_weighting: false
+  checkpoint_grad: false
+task: sent
+dataset: sentiment
+
+
+[2024-10-05 21:19:43,691][__main__][INFO] - Project base directory: /home/gridsan/shossain/serac
+[2024-10-05 21:19:43,804][models][INFO] - Loading model class <class 'transformers.models.blenderbot_small.modeling_blenderbot_small.BlenderbotSmallForConditionalGeneration'> with name facebook/blenderbot_small-90M from cache dir /home/gridsan/shossain/serac/scr/shossain
+[2024-10-05 21:19:44,901][models][INFO] - Set 58 dropout modules to p=0.0
+i'm doing well. just got back from a long day at work. how are you?
+[2024-10-05 21:19:46,916][__main__][INFO] - Loading class REP from module <module 'algs.rep' from '/home/gridsan/shossain/serac/algs/rep.py'>
+/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/hydra/_internal/hydra.py:127: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  configure_logging=with_log_configuration,
+Some weights of the model checkpoint at /home/gridsan/shossain/serac/scr/shossain/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0 were not used when initializing DistilBertModel: ['vocab_layer_norm.bias', 'vocab_transform.weight', 'vocab_projector.weight', 'vocab_projector.bias', 'vocab_transform.bias', 'vocab_layer_norm.weight']
+- This IS expected if you are initializing DistilBertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing DistilBertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2024-10-05 21:19:50,545][utils][INFO] - Set 13 dropout modules to p=0.0
+You are using a model of type t5 to instantiate a model of type blenderbot-small. This is not supported for all configurations of models and can yield errors.
+Some weights of the model checkpoint at /home/gridsan/shossain/serac/scr/shossain/hub/models--t5-small/snapshots/df1b051c49625cf57a3d0d8d3863ed4d13564fe4 were not used when initializing BlenderbotSmallForConditionalGeneration: ['encoder.block.5.layer.0.layer_norm.weight', 'encoder.block.0.layer.1.DenseReluDense.wi.weight', 'encoder.block.5.layer.0.SelfAttention.q.weight', 'decoder.block.3.layer.2.layer_norm.weight', 'decoder.block.0.layer.1.EncDecAttention.v.weight', 'encoder.block.5.layer.0.SelfAttention.v.weight', 'encoder.block.3.layer.0.layer_norm.weight', 'decoder.block.0.layer.2.DenseReluDense.wi.weight', 'decoder.block.5.layer.1.EncDecAttention.o.weight', 'encoder.block.1.layer.0.SelfAttention.q.weight', 'encoder.block.3.layer.1.DenseReluDense.wo.weight', 'encoder.block.4.layer.0.SelfAttention.q.weight', 'decoder.block.0.layer.1.EncDecAttention.relative_attention_bias.weight', 'decoder.block.1.layer.0.SelfAttention.k.weight', 'decoder.block.1.layer.2.layer_norm.weight', 'encoder.block.5.layer.1.layer_norm.weight', 'encoder.block.5.layer.0.SelfAttention.o.weight', 'decoder.block.2.layer.0.SelfAttention.q.weight', 'decoder.block.3.layer.1.EncDecAttention.k.weight', 'decoder.block.1.layer.2.DenseReluDense.wi.weight', 'encoder.block.1.layer.1.DenseReluDense.wi.weight', 'decoder.block.4.layer.0.SelfAttention.v.weight', 'decoder.block.5.layer.1.EncDecAttention.q.weight', 'decoder.block.5.layer.1.EncDecAttention.v.weight', 'decoder.block.1.layer.1.EncDecAttention.k.weight', 'encoder.block.1.layer.0.layer_norm.weight', 'decoder.block.4.layer.0.SelfAttention.q.weight', 'encoder.block.4.layer.0.layer_norm.weight', 'encoder.block.0.layer.0.SelfAttention.v.weight', 'decoder.block.3.layer.1.EncDecAttention.q.weight', 'encoder.block.2.layer.0.SelfAttention.k.weight', 'decoder.block.3.layer.0.SelfAttention.o.weight', 'decoder.block.4.layer.1.EncDecAttention.o.weight', 'decoder.block.0.layer.0.SelfAttention.k.weight', 'decoder.block.2.layer.2.DenseReluDense.wo.weight', 'encoder.block.1.layer.1.layer_norm.weight', 'decoder.block.2.layer.2.DenseReluDense.wi.weight', 'encoder.block.5.layer.0.SelfAttention.k.weight', 'encoder.block.2.layer.0.layer_norm.weight', 'decoder.block.1.layer.0.SelfAttention.o.weight', 'decoder.block.0.layer.0.layer_norm.weight', 'decoder.block.2.layer.2.layer_norm.weight', 'decoder.block.1.layer.2.DenseReluDense.wo.weight', 'decoder.block.5.layer.2.DenseReluDense.wo.weight', 'encoder.block.0.layer.0.layer_norm.weight', 'encoder.block.4.layer.0.SelfAttention.v.weight', 'decoder.block.5.layer.0.SelfAttention.q.weight', 'decoder.block.2.layer.0.SelfAttention.k.weight', 'decoder.block.1.layer.1.EncDecAttention.v.weight', 'decoder.block.0.layer.0.SelfAttention.q.weight', 'decoder.block.4.layer.2.DenseReluDense.wo.weight', 'encoder.block.0.layer.0.SelfAttention.k.weight', 'encoder.block.3.layer.1.DenseReluDense.wi.weight', 'decoder.block.1.layer.1.EncDecAttention.q.weight', 'decoder.block.3.layer.1.layer_norm.weight', 'encoder.block.4.layer.1.DenseReluDense.wi.weight', 'encoder.block.4.layer.1.DenseReluDense.wo.weight', 'encoder.block.4.layer.0.SelfAttention.k.weight', 'encoder.block.4.layer.0.SelfAttention.o.weight', 'decoder.block.0.layer.1.EncDecAttention.k.weight', 'decoder.block.3.layer.0.SelfAttention.q.weight', 'decoder.block.1.layer.0.SelfAttention.q.weight', 'decoder.block.1.layer.0.layer_norm.weight', 'decoder.block.2.layer.0.layer_norm.weight', 'decoder.block.4.layer.0.layer_norm.weight', 'decoder.block.5.layer.2.DenseReluDense.wi.weight', 'decoder.block.0.layer.0.SelfAttention.o.weight', 'decoder.block.0.layer.2.layer_norm.weight', 'decoder.block.0.layer.1.EncDecAttention.q.weight', 'decoder.block.1.layer.1.layer_norm.weight', 'encoder.block.2.layer.0.SelfAttention.v.weight', 'decoder.block.2.layer.0.SelfAttention.v.weight', 'decoder.block.5.layer.0.layer_norm.weight', 'decoder.block.2.layer.0.SelfAttention.o.weight', 'decoder.block.3.layer.2.DenseReluDense.wi.weight', 'decoder.block.4.layer.1.EncDecAttention.k.weight', 'decoder.block.4.layer.2.layer_norm.weight', 'decoder.block.4.layer.1.layer_norm.weight', 'encoder.block.0.layer.0.SelfAttention.o.weight', 'decoder.block.1.layer.0.SelfAttention.v.weight', 'decoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight', 'encoder.block.1.layer.0.SelfAttention.v.weight', 'decoder.block.2.layer.1.layer_norm.weight', 'decoder.block.3.layer.1.EncDecAttention.v.weight', 'encoder.block.2.layer.0.SelfAttention.q.weight', 'encoder.block.2.layer.1.layer_norm.weight', 'decoder.block.3.layer.0.SelfAttention.v.weight', 'encoder.block.0.layer.1.DenseReluDense.wo.weight', 'decoder.block.3.layer.1.EncDecAttention.o.weight', 'decoder.block.2.layer.1.EncDecAttention.q.weight', 'encoder.block.3.layer.0.SelfAttention.o.weight', 'decoder.final_layer_norm.weight', 'decoder.block.4.layer.1.EncDecAttention.v.weight', 'decoder.block.5.layer.0.SelfAttention.k.weight', 'decoder.block.1.layer.1.EncDecAttention.o.weight', 'decoder.block.2.layer.1.EncDecAttention.v.weight', 'decoder.block.4.layer.0.SelfAttention.o.weight', 'encoder.block.0.layer.0.SelfAttention.q.weight', 'decoder.block.4.layer.2.DenseReluDense.wi.weight', 'decoder.block.3.layer.0.layer_norm.weight', 'encoder.block.0.layer.0.SelfAttention.relative_attention_bias.weight', 'encoder.block.3.layer.1.layer_norm.weight', 'encoder.block.3.layer.0.SelfAttention.v.weight', 'decoder.block.5.layer.2.layer_norm.weight', 'decoder.block.3.layer.2.DenseReluDense.wo.weight', 'encoder.block.2.layer.0.SelfAttention.o.weight', 'encoder.block.1.layer.0.SelfAttention.k.weight', 'decoder.block.0.layer.1.EncDecAttention.o.weight', 'decoder.block.2.layer.1.EncDecAttention.k.weight', 'decoder.block.5.layer.1.layer_norm.weight', 'decoder.block.0.layer.1.layer_norm.weight', 'decoder.block.4.layer.1.EncDecAttention.q.weight', 'decoder.block.3.layer.0.SelfAttention.k.weight', 'decoder.block.4.layer.0.SelfAttention.k.weight', 'encoder.block.0.layer.1.layer_norm.weight', 'decoder.block.5.layer.1.EncDecAttention.k.weight', 'encoder.block.3.layer.0.SelfAttention.k.weight', 'encoder.block.2.layer.1.DenseReluDense.wo.weight', 'decoder.block.5.layer.0.SelfAttention.v.weight', 'decoder.block.2.layer.1.EncDecAttention.o.weight', 'decoder.block.0.layer.0.SelfAttention.v.weight', 'encoder.block.1.layer.0.SelfAttention.o.weight', 'encoder.block.5.layer.1.DenseReluDense.wi.weight', 'encoder.block.4.layer.1.layer_norm.weight', 'decoder.block.5.layer.0.SelfAttention.o.weight', 'decoder.block.0.layer.2.DenseReluDense.wo.weight', 'encoder.block.2.layer.1.DenseReluDense.wi.weight', 'encoder.final_layer_norm.weight', 'encoder.block.3.layer.0.SelfAttention.q.weight', 'encoder.block.1.layer.1.DenseReluDense.wo.weight', 'encoder.block.5.layer.1.DenseReluDense.wo.weight']
+- This IS expected if you are initializing BlenderbotSmallForConditionalGeneration from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BlenderbotSmallForConditionalGeneration from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of BlenderbotSmallForConditionalGeneration were not initialized from the model checkpoint at /home/gridsan/shossain/serac/scr/shossain/hub/models--t5-small/snapshots/df1b051c49625cf57a3d0d8d3863ed4d13564fe4 and are newly initialized: ['encoder.layers.3.self_attn.k_proj.bias', 'decoder.layers.6.self_attn_layer_norm.weight', 'encoder.layers.5.fc2.weight', 'decoder.layers.5.fc1.weight', 'decoder.layers.7.final_layer_norm.bias', 'decoder.layers.7.encoder_attn_layer_norm.weight', 'decoder.layers.7.encoder_attn.q_proj.weight', 'encoder.layers.1.fc1.weight', 'decoder.layers.7.encoder_attn.out_proj.weight', 'encoder.layers.0.self_attn_layer_norm.bias', 'encoder.layers.7.self_attn.v_proj.weight', 'decoder.layers.7.self_attn.v_proj.weight', 'encoder.layers.0.fc1.bias', 'decoder.layers.4.fc2.bias', 'decoder.layers.7.self_attn.q_proj.weight', 'decoder.layernorm_embedding.weight', 'encoder.layers.7.final_layer_norm.bias', 'encoder.layers.0.final_layer_norm.weight', 'decoder.layers.4.self_attn_layer_norm.weight', 'encoder.layers.6.self_attn.out_proj.bias', 'decoder.layers.2.fc2.weight', 'encoder.layers.0.final_layer_norm.bias', 'decoder.layers.6.final_layer_norm.weight', 'decoder.layers.4.self_attn.k_proj.weight', 'decoder.layers.1.self_attn.v_proj.bias', 'decoder.layers.6.fc2.weight', 'decoder.layers.3.self_attn.v_proj.bias', 'decoder.layers.6.encoder_attn.q_proj.bias', 'encoder.layers.1.self_attn.q_proj.bias', 'decoder.layers.0.encoder_attn.out_proj.weight', 'decoder.layers.1.self_attn.q_proj.bias', 'decoder.layers.1.encoder_attn.out_proj.bias', 'encoder.layers.4.self_attn.v_proj.bias', 'encoder.layers.0.fc1.weight', 'encoder.layers.1.self_attn.v_proj.bias', 'decoder.layers.7.fc1.bias', 'encoder.layers.3.self_attn.q_proj.bias', 'decoder.layers.5.self_attn.v_proj.bias', 'decoder.layers.1.self_attn.v_proj.weight', 'encoder.layers.0.fc2.bias', 'encoder.layers.2.final_layer_norm.weight', 'decoder.layers.0.self_attn.v_proj.bias', 'decoder.layers.5.self_attn.k_proj.bias', 'encoder.layers.1.self_attn_layer_norm.weight', 'decoder.layers.3.encoder_attn.out_proj.bias', 'encoder.layers.3.self_attn.out_proj.bias', 'decoder.layers.1.self_attn_layer_norm.bias', 'encoder.layers.5.self_attn.v_proj.weight', 'encoder.layernorm_embedding.weight', 'decoder.layers.3.self_attn_layer_norm.bias', 'decoder.layers.0.fc2.bias', 'encoder.layers.6.fc2.bias', 'encoder.layers.5.final_layer_norm.weight', 'decoder.layers.4.fc1.bias', 'decoder.layers.5.self_attn.out_proj.bias', 'decoder.layers.5.encoder_attn.v_proj.weight', 'decoder.layers.6.self_attn.q_proj.weight', 'decoder.layers.7.fc2.weight', 'decoder.layers.3.fc2.weight', 'decoder.layers.2.encoder_attn.out_proj.weight', 'encoder.layers.5.fc1.bias', 'decoder.layers.0.encoder_attn.q_proj.weight', 'decoder.layers.3.encoder_attn.out_proj.weight', 'decoder.layers.2.final_layer_norm.weight', 'decoder.layers.3.fc1.bias', 'encoder.layers.5.fc1.weight', 'encoder.layers.6.fc1.weight', 'decoder.layers.6.encoder_attn_layer_norm.bias', 'decoder.layers.4.self_attn.v_proj.weight', 'decoder.layers.4.self_attn.out_proj.weight', 'decoder.layers.5.fc2.bias', 'decoder.layers.7.fc2.bias', 'encoder.layers.4.self_attn.q_proj.weight', 'encoder.layers.3.fc2.bias', 'encoder.layers.5.fc2.bias', 'encoder.layers.7.self_attn.q_proj.bias', 'decoder.layers.2.self_attn.out_proj.bias', 'decoder.layers.6.encoder_attn_layer_norm.weight', 'decoder.layers.0.encoder_attn.q_proj.bias', 'decoder.layers.7.final_layer_norm.weight', 'decoder.layers.2.self_attn_layer_norm.bias', 'decoder.layers.2.self_attn.out_proj.weight', 'decoder.layers.4.self_attn.k_proj.bias', 'decoder.layers.4.self_attn.out_proj.bias', 'encoder.layers.6.fc2.weight', 'decoder.layers.1.encoder_attn.out_proj.weight', 'encoder.layers.1.fc2.weight', 'decoder.layers.5.self_attn.k_proj.weight', 'encoder.layers.7.fc1.bias', 'decoder.layers.7.self_attn_layer_norm.bias', 'encoder.layers.5.self_attn.out_proj.bias', 'decoder.layers.0.self_attn_layer_norm.weight', 'decoder.layernorm_embedding.bias', 'decoder.layers.4.encoder_attn.v_proj.weight', 'encoder.layers.1.self_attn.k_proj.weight', 'encoder.layers.6.self_attn.out_proj.weight', 'encoder.layers.0.self_attn.out_proj.weight', 'encoder.layers.6.self_attn.v_proj.weight', 'decoder.layers.0.self_attn_layer_norm.bias', 'decoder.layers.5.encoder_attn.k_proj.bias', 'decoder.layers.1.self_attn.out_proj.bias', 'encoder.layers.1.fc2.bias', 'decoder.layers.2.fc1.bias', 'encoder.embed_tokens.weight', 'encoder.layers.1.self_attn.out_proj.weight', 'decoder.layers.7.self_attn.out_proj.weight', 'encoder.layers.3.final_layer_norm.weight', 'decoder.layers.2.self_attn.q_proj.weight', 'decoder.layers.3.self_attn.out_proj.weight', 'encoder.layers.4.self_attn.out_proj.weight', 'decoder.layers.0.encoder_attn.k_proj.bias', 'encoder.layers.0.self_attn.v_proj.weight', 'decoder.layers.0.encoder_attn.v_proj.weight', 'decoder.layers.3.final_layer_norm.weight', 'decoder.layers.6.encoder_attn.k_proj.bias', 'decoder.layers.3.encoder_attn.v_proj.weight', 'decoder.layers.1.encoder_attn.v_proj.weight', 'encoder.layers.4.self_attn.q_proj.bias', 'encoder.layers.6.fc1.bias', 'decoder.layers.0.self_attn.q_proj.weight', 'decoder.layers.2.encoder_attn.k_proj.weight', 'decoder.layers.6.fc2.bias', 'encoder.layers.1.self_attn.out_proj.bias', 'encoder.layers.5.self_attn.out_proj.weight', 'decoder.layers.5.self_attn.q_proj.weight', 'decoder.layers.0.final_layer_norm.bias', 'encoder.layers.3.fc1.bias', 'encoder.layers.6.final_layer_norm.weight', 'encoder.layers.3.final_layer_norm.bias', 'decoder.layers.5.self_attn_layer_norm.weight', 'decoder.layers.2.encoder_attn.q_proj.bias', 'encoder.layers.3.fc1.weight', 'decoder.layers.0.self_attn.k_proj.bias', 'decoder.layers.1.self_attn.k_proj.bias', 'decoder.layers.1.fc1.bias', 'decoder.layers.2.encoder_attn.v_proj.weight', 'decoder.layers.2.fc2.bias', 'encoder.layers.0.self_attn.k_proj.weight', 'decoder.layers.4.self_attn.q_proj.bias', 'encoder.layers.7.self_attn_layer_norm.bias', 'decoder.layers.4.self_attn_layer_norm.bias', 'decoder.layers.6.encoder_attn.v_proj.weight', 'encoder.layers.0.self_attn_layer_norm.weight', 'decoder.layers.4.self_attn.q_proj.weight', 'encoder.layers.4.final_layer_norm.weight', 'decoder.layers.2.self_attn.k_proj.weight', 'encoder.layers.1.fc1.bias', 'encoder.layers.3.self_attn_layer_norm.weight', 'encoder.layers.4.fc1.weight', 'encoder.layers.6.self_attn.v_proj.bias', 'encoder.layers.4.self_attn.v_proj.weight', 'decoder.layers.4.encoder_attn.v_proj.bias', 'decoder.layers.1.self_attn.out_proj.weight', 'decoder.layers.1.self_attn.k_proj.weight', 'encoder.layers.5.self_attn_layer_norm.bias', 'decoder.layers.6.fc1.bias', 'decoder.layers.1.encoder_attn_layer_norm.bias', 'encoder.layers.5.self_attn.q_proj.weight', 'decoder.layers.2.encoder_attn_layer_norm.bias', 'decoder.layers.3.self_attn_layer_norm.weight', 'decoder.layers.6.final_layer_norm.bias', 'encoder.layers.2.self_attn_layer_norm.weight', 'encoder.layers.3.self_attn.k_proj.weight', 'encoder.layers.1.self_attn.k_proj.bias', 'decoder.layers.5.encoder_attn.k_proj.weight', 'encoder.layers.1.final_layer_norm.bias', 'encoder.layers.6.self_attn_layer_norm.weight', 'decoder.layers.0.self_attn.q_proj.bias', 'encoder.layers.4.self_attn.k_proj.bias', 'decoder.layers.6.encoder_attn.v_proj.bias', 'encoder.layers.2.self_attn.out_proj.bias', 'encoder.layers.6.self_attn.q_proj.bias', 'decoder.layers.7.self_attn.v_proj.bias', 'encoder.layers.2.final_layer_norm.bias', 'encoder.layers.7.self_attn_layer_norm.weight', 'encoder.layers.4.self_attn.out_proj.bias', 'decoder.layers.2.encoder_attn.k_proj.bias', 'encoder.layers.7.self_attn.v_proj.bias', 'encoder.layers.7.final_layer_norm.weight', 'decoder.layers.7.self_attn.k_proj.bias', 'decoder.layers.7.encoder_attn.q_proj.bias', 'encoder.layers.1.self_attn.q_proj.weight', 'encoder.layers.0.self_attn.k_proj.bias', 'decoder.layers.4.final_layer_norm.weight', 'decoder.layers.7.self_attn_layer_norm.weight', 'encoder.layers.5.self_attn.q_proj.bias', 'decoder.layers.3.self_attn.k_proj.bias', 'decoder.layers.1.encoder_attn_layer_norm.weight', 'decoder.layers.6.self_attn.v_proj.weight', 'encoder.layers.5.self_attn.v_proj.bias', 'encoder.layers.0.fc2.weight', 'encoder.layers.3.fc2.weight', 'encoder.layers.4.self_attn_layer_norm.bias', 'decoder.layers.6.encoder_attn.q_proj.weight', 'encoder.layers.7.self_attn.out_proj.bias', 'encoder.layers.5.self_attn_layer_norm.weight', 'decoder.layers.4.fc1.weight', 'encoder.layernorm_embedding.bias', 'decoder.layers.0.self_attn.k_proj.weight', 'decoder.layers.0.self_attn.out_proj.weight', 'decoder.layers.2.self_attn_layer_norm.weight', 'decoder.layers.0.encoder_attn.out_proj.bias', 'encoder.layers.4.fc2.bias', 'decoder.layers.3.encoder_attn.v_proj.bias', 'decoder.layers.0.self_attn.v_proj.weight', 'decoder.layers.4.encoder_attn.q_proj.bias', 'decoder.layers.0.encoder_attn_layer_norm.bias', 'decoder.layers.3.self_attn.v_proj.weight', 'encoder.layers.5.self_attn.k_proj.weight', 'decoder.layers.5.encoder_attn_layer_norm.bias', 'decoder.layers.6.self_attn.v_proj.bias', 'encoder.layers.4.fc1.bias', 'decoder.layers.0.encoder_attn_layer_norm.weight', 'encoder.layers.6.self_attn.k_proj.weight', 'decoder.layers.6.self_attn.out_proj.weight', 'encoder.layers.0.self_attn.out_proj.bias', 'encoder.layers.6.self_attn.k_proj.bias', 'encoder.layers.2.self_attn.v_proj.bias', 'decoder.layers.6.self_attn.q_proj.bias', 'decoder.layers.7.self_attn.k_proj.weight', 'decoder.layers.1.fc2.bias', 'decoder.layers.4.final_layer_norm.bias', 'encoder.layers.3.self_attn_layer_norm.bias', 'decoder.layers.5.encoder_attn.q_proj.weight', 'decoder.embed_tokens.weight', 'encoder.layers.2.self_attn.k_proj.weight', 'decoder.layers.3.encoder_attn.q_proj.weight', 'decoder.layers.2.encoder_attn.v_proj.bias', 'decoder.embed_positions.weight', 'encoder.layers.7.self_attn.out_proj.weight', 'encoder.layers.7.self_attn.k_proj.weight', 'decoder.layers.1.encoder_attn.k_proj.weight', 'encoder.layers.4.final_layer_norm.bias', 'encoder.layers.2.self_attn.v_proj.weight', 'encoder.layers.4.fc2.weight', 'decoder.layers.3.fc1.weight', 'decoder.layers.5.encoder_attn.out_proj.bias', 'encoder.layers.7.self_attn.q_proj.weight', 'decoder.layers.2.encoder_attn.q_proj.weight', 'decoder.layers.3.encoder_attn_layer_norm.weight', 'decoder.layers.2.self_attn.q_proj.bias', 'decoder.layers.1.self_attn.q_proj.weight', 'decoder.layers.5.fc2.weight', 'decoder.layers.4.encoder_attn.out_proj.weight', 'encoder.layers.2.self_attn.q_proj.bias', 'decoder.layers.5.encoder_attn.q_proj.bias', 'decoder.layers.2.final_layer_norm.bias', 'decoder.layers.3.final_layer_norm.bias', 'decoder.layers.3.encoder_attn.q_proj.bias', 'decoder.layers.3.encoder_attn_layer_norm.bias', 'decoder.layers.7.encoder_attn.k_proj.weight', 'decoder.layers.0.encoder_attn.v_proj.bias', 'decoder.layers.7.fc1.weight', 'decoder.layers.7.self_attn.q_proj.bias', 'encoder.layers.2.fc2.bias', 'decoder.layers.4.encoder_attn_layer_norm.weight', 'decoder.layers.1.encoder_attn.q_proj.weight', 'encoder.layers.2.self_attn_layer_norm.bias', 'decoder.layers.2.self_attn.k_proj.bias', 'encoder.layers.1.self_attn_layer_norm.bias', 'decoder.layers.4.encoder_attn.k_proj.bias', 'decoder.layers.7.self_attn.out_proj.bias', 'decoder.layers.5.fc1.bias', 'encoder.layers.0.self_attn.q_proj.weight', 'decoder.layers.4.encoder_attn.out_proj.bias', 'decoder.layers.3.self_attn.q_proj.weight', 'decoder.layers.0.self_attn.out_proj.bias', 'decoder.layers.5.final_layer_norm.bias', 'encoder.embed_positions.weight', 'decoder.layers.4.encoder_attn.k_proj.weight', 'decoder.layers.1.fc2.weight', 'decoder.layers.5.self_attn_layer_norm.bias', 'decoder.layers.1.encoder_attn.v_proj.bias', 'decoder.layers.4.fc2.weight', 'encoder.layers.6.self_attn_layer_norm.bias', 'encoder.layers.7.self_attn.k_proj.bias', 'decoder.layers.3.self_attn.q_proj.bias', 'encoder.layers.5.final_layer_norm.bias', 'decoder.layers.7.encoder_attn.v_proj.bias', 'decoder.layers.4.self_attn.v_proj.bias', 'encoder.layers.3.self_attn.out_proj.weight', 'encoder.layers.3.self_attn.v_proj.weight', 'encoder.layers.7.fc1.weight', 'decoder.layers.3.encoder_attn.k_proj.weight', 'decoder.layers.5.final_layer_norm.weight', 'encoder.layers.2.fc2.weight', 'encoder.layers.2.self_attn.k_proj.bias', 'decoder.layers.0.final_layer_norm.weight', 'encoder.layers.4.self_attn.k_proj.weight', 'decoder.layers.7.encoder_attn.out_proj.bias', 'decoder.layers.7.encoder_attn.v_proj.weight', 'decoder.layers.6.self_attn.k_proj.bias', 'decoder.layers.6.encoder_attn.k_proj.weight', 'decoder.layers.6.self_attn_layer_norm.bias', 'decoder.layers.6.self_attn.out_proj.bias', 'decoder.layers.2.self_attn.v_proj.bias', 'encoder.layers.1.final_layer_norm.weight', 'encoder.layers.4.self_attn_layer_norm.weight', 'decoder.layers.3.self_attn.k_proj.weight', 'encoder.layers.3.self_attn.v_proj.bias', 'decoder.layers.7.encoder_attn.k_proj.bias', 'encoder.layers.7.fc2.bias', 'encoder.layers.0.self_attn.v_proj.bias', 'decoder.layers.0.fc1.bias', 'encoder.layers.3.self_attn.q_proj.weight', 'decoder.layers.5.encoder_attn.out_proj.weight', 'decoder.layers.4.encoder_attn.q_proj.weight', 'decoder.layers.0.fc2.weight', 'encoder.layers.2.fc1.bias', 'decoder.layers.5.encoder_attn_layer_norm.weight', 'encoder.layers.2.self_attn.out_proj.weight', 'decoder.layers.5.encoder_attn.v_proj.bias', 'decoder.layers.3.encoder_attn.k_proj.bias', 'decoder.layers.1.self_attn_layer_norm.weight', 'decoder.layers.6.encoder_attn.out_proj.bias', 'decoder.layers.2.encoder_attn.out_proj.bias', 'decoder.layers.2.fc1.weight', 'decoder.layers.6.self_attn.k_proj.weight', 'decoder.layers.2.encoder_attn_layer_norm.weight', 'decoder.layers.5.self_attn.q_proj.bias', 'decoder.layers.1.final_layer_norm.weight', 'decoder.layers.6.fc1.weight', 'decoder.layers.7.encoder_attn_layer_norm.bias', 'decoder.layers.4.encoder_attn_layer_norm.bias', 'encoder.layers.6.final_layer_norm.bias', 'decoder.layers.0.fc1.weight', 'decoder.layers.6.encoder_attn.out_proj.weight', 'decoder.layers.5.self_attn.out_proj.weight', 'decoder.layers.1.final_layer_norm.bias', 'decoder.layers.1.encoder_attn.q_proj.bias', 'decoder.layers.1.encoder_attn.k_proj.bias', 'encoder.layers.7.fc2.weight', 'encoder.layers.2.fc1.weight', 'encoder.layers.5.self_attn.k_proj.bias', 'encoder.layers.0.self_attn.q_proj.bias', 'decoder.layers.3.fc2.bias', 'decoder.layers.0.encoder_attn.k_proj.weight', 'encoder.layers.1.self_attn.v_proj.weight', 'encoder.layers.2.self_attn.q_proj.weight', 'encoder.layers.6.self_attn.q_proj.weight', 'decoder.layers.5.self_attn.v_proj.weight', 'decoder.layers.2.self_attn.v_proj.weight', 'decoder.layers.1.fc1.weight', 'decoder.layers.3.self_attn.out_proj.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Using sep_token, but it is not set yet.
+[2024-10-05 21:19:52,889][utils][INFO] - Set 58 dropout modules to p=0.0
+[2024-10-05 21:20:01,195][trainer][INFO] - Built optimizer Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    eps: 1e-08
+    foreach: None
+    lr: 1e-05
+    maximize: False
+    weight_decay: 0
+
+Parameter Group 1
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    eps: 1e-08
+    foreach: None
+    lr: 0.0
+    maximize: False
+    weight_decay: 0
+)
+[2024-10-05 21:20:01,202][trainer][INFO] - Writing wandb run "sentiment - rep - blenderbot_small-90M - 2024-10-05_21-19-43_5937591103" to /state/partition1/slurm_tmp/27142189.4294967291.0/tmpqktvzdt2
+wandb: Tracking run with wandb version 0.12.21
+wandb: W&B syncing is set to `offline` in this directory.  
+wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+[2024-10-05 21:20:06,790][__main__][INFO] - Built trainer: <trainer.SupervisedTrainer object at 0x7f9c9b4e32d0>
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+[2024-10-05 21:20:12,888][trainer][INFO] - Step 0:
+[2024-10-05 21:20:12,888][trainer][INFO] - sims/mean_edit_train:  0.00041; sims/pos_edit_train:  0.00000; sims/neg_edit_train:  1.00000; params/scale_edit_train:  1.00000; sims/mean_loc_train:  0.00530; sims/pos_loc_train:  0.00000; sims/neg_loc_train:  1.00000; params/scale_loc_train:  1.00000; cls/acc_train:  0.50000; cls/pos_acc_train:  0.00000; cls/neg_acc_train:  1.00000; loss/cntr_train:  6375.04443; loss/cls_train:  8.52866; retain/edit_train:  1.00000; kl/edit_train:  0.00000; cntr/acc_train:  0.00000; cntr/log_prob_train: -6375.04443; cntr/prob_train:  0.00000; time/edit_train:  2.36571; edit/acc_sent_train:  0.55723; stat_dump/acc_train:  0.00000; stat_dump/log_prob_train: -7.76904; stat_dump/prob_train:  0.00042; stat_dump/n_tokens_train:  878.00000; stat_dump/nll_train:  7.80260; stat_dump/acc_sent_train:  0.55723; stat_dump/z_sent_train:  0.55723; stat_dump/z_topic_train:  1.00000; stat_dump/z_topic_raw_train:  1.00000; stat_dump/correct_probs_train: -7.76904; stat_dump/wrong_probs_train: -7.99898; loss/total_supervised_train:  646.03314; memory/alloc_max_train:  10380728832.00000; memory/res_max_train:  14579400704.00000
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [0,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [1,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [2,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [3,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [4,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [5,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [6,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [7,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [8,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [9,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [10,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [11,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [12,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [13,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [14,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [15,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [16,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [17,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [18,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [19,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [20,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [21,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [22,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [23,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [24,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [25,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [26,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [27,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [28,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [29,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [30,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [31,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [96,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [97,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [98,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [99,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [100,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [101,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [102,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [103,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [104,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [105,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [106,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [107,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [108,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [109,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [110,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [111,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [112,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [113,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [114,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [115,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [116,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [117,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [118,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [119,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [120,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [121,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [122,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [123,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [124,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [125,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [126,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [127,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [64,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [65,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [66,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [67,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [68,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [69,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [70,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [71,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [72,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [73,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [74,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [75,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [76,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [77,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [78,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [79,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [81,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [82,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [84,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [85,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [86,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [87,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [88,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [89,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [90,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [91,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [92,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [93,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [94,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [95,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [32,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [33,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [34,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [35,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [36,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [37,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [38,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [39,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [40,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [41,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [42,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [43,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [44,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [45,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [46,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [47,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [48,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [49,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [50,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [51,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [52,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [53,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [54,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [55,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [56,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [57,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [58,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [59,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [60,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [61,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [62,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [319,0,0], thread: [63,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [64,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [65,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [66,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [67,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [68,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [69,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [70,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [71,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [72,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [73,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [74,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [75,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [76,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [77,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [78,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [79,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [81,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [82,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [84,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [85,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [86,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [87,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [88,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [89,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [90,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [91,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [92,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [93,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [94,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [95,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [96,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [97,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [98,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [99,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [100,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [101,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [102,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [103,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [104,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [105,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [106,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [107,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [108,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [109,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [110,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [111,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [112,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [113,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [114,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [115,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [116,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [117,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [118,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [119,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [120,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [121,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [122,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [123,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [124,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [125,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [126,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [127,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [64,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [65,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [66,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [67,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [68,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [69,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [70,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [71,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [72,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [73,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [74,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [75,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [76,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [77,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [78,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [79,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [81,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [82,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [84,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [85,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [86,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [87,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [88,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [89,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [90,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [91,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [92,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [93,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [94,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [95,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [96,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [97,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [98,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [99,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [100,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [101,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [102,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [103,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [104,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [105,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [106,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [107,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [108,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [109,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [110,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [111,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [112,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [113,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [114,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [115,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [116,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [117,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [118,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [119,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [120,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [121,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [122,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [123,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [124,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [125,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [126,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [127,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [32,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [33,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [34,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [35,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [36,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [37,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [38,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [39,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [40,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [41,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [42,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [43,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [44,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [45,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [46,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [47,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [48,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [49,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [50,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [51,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [52,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [53,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [54,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [55,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [56,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [57,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [58,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [59,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [60,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [61,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [62,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [63,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [0,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [1,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [2,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [3,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [4,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [5,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [6,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [7,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [8,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [9,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [10,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [11,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [12,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [13,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [14,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [15,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [16,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [17,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [18,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [19,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [20,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [21,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [22,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [23,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [24,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [25,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [26,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [27,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [28,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [29,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [30,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [316,0,0], thread: [31,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [32,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [33,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [34,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [35,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [36,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [37,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [38,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [39,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [40,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [41,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [42,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [43,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [44,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [45,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [46,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [47,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [48,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [49,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [50,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [51,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [52,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [53,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [54,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [55,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [56,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [57,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [58,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [59,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [60,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [61,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [62,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [63,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [96,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [97,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [98,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [99,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [100,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [101,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [102,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [103,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [104,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [105,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [106,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [107,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [108,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [109,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [110,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [111,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [112,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [113,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [114,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [115,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [116,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [117,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [118,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [119,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [120,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [121,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [122,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [123,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [124,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [125,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [126,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [127,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [0,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [1,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [2,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [3,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [4,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [5,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [6,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [7,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [8,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [9,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [10,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [11,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [12,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [13,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [14,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [15,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [16,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [17,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [18,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [19,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [20,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [21,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [22,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [23,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [24,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [25,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [26,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [27,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [28,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [29,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [30,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [31,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [64,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [65,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [66,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [67,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [68,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [69,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [70,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [71,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [72,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [73,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [74,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [75,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [76,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [77,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [78,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [79,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [80,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [81,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [82,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [83,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [84,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [85,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [86,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [87,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [88,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [89,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [90,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [91,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [92,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [93,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [94,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [95,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [0,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [1,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [2,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [3,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [4,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [5,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [6,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [7,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [8,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [9,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [10,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [11,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [12,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [13,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [14,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [15,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [16,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [17,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [18,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [19,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [20,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [21,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [22,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [23,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [24,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [25,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [26,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [27,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [28,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [29,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [30,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [318,0,0], thread: [31,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [32,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [33,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [34,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [35,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [36,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [37,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [38,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [39,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [40,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [41,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [42,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [43,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [44,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [45,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [46,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [47,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [48,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [49,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [50,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [51,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [52,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [53,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [54,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [55,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [56,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [57,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [58,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [59,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [60,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [61,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [62,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+../aten/src/ATen/native/cuda/Indexing.cu:975: indexSelectLargeIndex: block: [317,0,0], thread: [63,0,0] Assertion `srcIndex < srcSelectDimSize` failed.
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Inputs shapes: []
+Error executing job with overrides: ['+alg=rep', '+experiment=sent', '+model=blender-small', 'batch_size=5', 'val_batch_size=5']
+Traceback (most recent call last):
+  File "/home/gridsan/shossain/serac/run.py", line 144, in run
+    trainer.run()
+  File "/home/gridsan/shossain/serac/trainer.py", line 147, in run
+    val_info = self.validate(steps=self.config.val_steps)
+  File "/home/gridsan/shossain/serac/trainer.py", line 381, in validate
+    _, _, _, _, info_dict = self.edit_step(next(val_edit_gen), training=False)
+  File "/home/gridsan/shossain/serac/trainer.py", line 437, in edit_step
+    pos_pairs=pos_pairs)
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/gridsan/shossain/serac/algs/rep.py", line 337, in forward
+    rep_cls_logits = _logits(self.replacement(**rep_cls_inputs))
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/transformers/models/blenderbot_small/modeling_blenderbot_small.py", line 1278, in forward
+    return_dict=return_dict,
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/transformers/models/blenderbot_small/modeling_blenderbot_small.py", line 1160, in forward
+    return_dict=return_dict,
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/transformers/models/blenderbot_small/modeling_blenderbot_small.py", line 945, in forward
+    attention_mask, input_shape, inputs_embeds, past_key_values_length
+  File "/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/transformers/models/blenderbot_small/modeling_blenderbot_small.py", line 826, in _prepare_decoder_attention_mask
+    ).to(self.device)
+RuntimeError: CUDA error: device-side assert triggered
+CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+wandb: Waiting for W&B process to finish... (failed 1).
+wandb: - 0.000 MB of 0.000 MB uploaded (0.000 MB deduped)wandb: \ 0.000 MB of 0.000 MB uploaded (0.000 MB deduped)wandb:                                                                                
+/home/gridsan/shossain/serac/run.py:25: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path='config', config_name='config')
+wandb: 
+wandb: Run history:
+wandb:                 cls/acc_train ▁
+wandb:             cls/neg_acc_train ▁
+wandb:             cls/pos_acc_train ▁
+wandb:                cntr/acc_train ▁
+wandb:           cntr/log_prob_train ▁
+wandb:               cntr/prob_train ▁
+wandb:           edit/acc_sent_train ▁
+wandb:                 kl/edit_train ▁
+wandb:                loss/cls_train ▁
+wandb:               loss/cntr_train ▁
+wandb:   loss/total_supervised_train ▁
+wandb:        memory/alloc_max_train ▁
+wandb:          memory/res_max_train ▁
+wandb:       params/scale_edit_train ▁
+wandb:        params/scale_loc_train ▁
+wandb:             retain/edit_train ▁
+wandb:          sims/mean_edit_train ▁
+wandb:           sims/mean_loc_train ▁
+wandb:           sims/neg_edit_train ▁
+wandb:            sims/neg_loc_train ▁
+wandb:           sims/pos_edit_train ▁
+wandb:            sims/pos_loc_train ▁
+wandb:      stat_dump/acc_sent_train ▁
+wandb:           stat_dump/acc_train ▁
+wandb: stat_dump/correct_probs_train ▁
+wandb:      stat_dump/log_prob_train ▁
+wandb:      stat_dump/n_tokens_train ▁
+wandb:           stat_dump/nll_train ▁
+wandb:          stat_dump/prob_train ▁
+wandb:   stat_dump/wrong_probs_train ▁
+wandb:        stat_dump/z_sent_train ▁
+wandb:   stat_dump/z_topic_raw_train ▁
+wandb:       stat_dump/z_topic_train ▁
+wandb:               time/edit_train ▁
+wandb: 
+wandb: Run summary:
+wandb:                 cls/acc_train 0.5
+wandb:             cls/neg_acc_train 1.0
+wandb:             cls/pos_acc_train 0.0
+wandb:                cntr/acc_train 0.0
+wandb:           cntr/log_prob_train -6375.04443
+wandb:               cntr/prob_train 0.0
+wandb:           edit/acc_sent_train 0.55723
+wandb:                 kl/edit_train 0.0
+wandb:                loss/cls_train 8.52866
+wandb:               loss/cntr_train 6375.04443
+wandb:   loss/total_supervised_train 646.03314
+wandb:        memory/alloc_max_train 10380728832.0
+wandb:          memory/res_max_train 14579400704.0
+wandb:       params/scale_edit_train 1.0
+wandb:        params/scale_loc_train 1.0
+wandb:             retain/edit_train 1.0
+wandb:          sims/mean_edit_train 0.00041
+wandb:           sims/mean_loc_train 0.0053
+wandb:           sims/neg_edit_train 1.0
+wandb:            sims/neg_loc_train 1.0
+wandb:           sims/pos_edit_train 0.0
+wandb:            sims/pos_loc_train 0.0
+wandb:      stat_dump/acc_sent_train 0.55723
+wandb:           stat_dump/acc_train 0.0
+wandb: stat_dump/correct_probs_train -7.76904
+wandb:      stat_dump/log_prob_train -7.76904
+wandb:      stat_dump/n_tokens_train 878.0
+wandb:           stat_dump/nll_train 7.8026
+wandb:          stat_dump/prob_train 0.00042
+wandb:   stat_dump/wrong_probs_train -7.99898
+wandb:        stat_dump/z_sent_train 0.55723
+wandb:   stat_dump/z_topic_raw_train 1.0
+wandb:       stat_dump/z_topic_train 1.0
+wandb:               time/edit_train 2.36571
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /state/partition1/slurm_tmp/27142189.4294967291.0/tmpqktvzdt2/wandb/offline-run-20241005_212001-shawwult
+wandb: Find logs at: /state/partition1/slurm_tmp/27142189.4294967291.0/tmpqktvzdt2/wandb/offline-run-20241005_212001-shawwult/logs
