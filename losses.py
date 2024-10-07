@@ -85,7 +85,6 @@ def multiclass_log_probs(
     pred_ids = pred.argmax(-1).masked_fill(~mask, NULL_TOKEN)
     correct = pred_ids == targ
     if pred.dim() == 3:
-        breakpoint()
         correct = (pred_ids == targ).all(-1)  # We want to get the whole sequence right
     acc = correct.float()
     if should_reduce:
@@ -170,8 +169,6 @@ def test_masked_log_probs():
     assert (targ == targ_).all()
     assert (half_pred == half_pred_).all()
     assert (true_pred == true_pred_).all()
-
-    import pdb; pdb.set_trace()
 
     pred = torch.randn(1000, 15, 1)
     targ = torch.randint(0, 2, (1000, 15))

@@ -413,7 +413,9 @@ def build_distr_matrix(edit_qs, config, loc_qs=None, slice_size=1000):
 
     from sentence_transformers import SentenceTransformer
     from sentence_transformers.util import pytorch_cos_sim
-    embedding_model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=scr()).to(device)
+    # embedding_model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=scr()).to(device)
+    # left off changed this line but havent tested outside of temrinal
+    embedding_model = SentenceTransformer(scr() + '/hub/models--sentence-transformers--all-MiniLM-L6-v2/snapshots/8b3219a92973c328a8e22fadcfa821b5dc75636a')
 
     ind_matrix = torch.zeros((n, num_neighbors - num_exclude), dtype=torch.long)
     distr_matrix = torch.full((n, num_neighbors - num_exclude), float('nan'))

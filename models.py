@@ -102,8 +102,9 @@ def get_model(config, download=False):
         LOG.info(f"Loading model class {ModelClass} with name {config.model.name} from cache dir {scr()}")
         if download:
             cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
-            snapshot_download(repo_id=config.model.name, cache_dir=cache_dir, local_files_only=False)
+            snapshot_download(repo_id=config.model.name, cache_dir=cache_dir)
             model = ModelClass.from_pretrained(config.model.name, cache_dir=cache_dir)
+            print('downloaded '+config.model.name)
         else:
             model = ModelClass.from_pretrained(config.model.name, cache_dir=scr())
 
@@ -203,11 +204,14 @@ def get_tokenizer(config, download=False):
     tok_name = config.model.tokenizer_name if config.model.tokenizer_name is not None else config.model.name
     if download:
         cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
-        snapshot_download(repo_id=tok_name, cache_dir=cache_dir, local_files_only=False)
-        # return Tokenizer.from_pretrained(cache_dir + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+        snapshot_download(repo_id=tok_name, cache_dir=cache_dir)
+        print('downloaded '+tok_name)
         return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=cache_dir)
     Tokenizer = getattr(transformers, config.model.tokenizer_class)
-    return Tokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+    # QA
+    return Tokenizer.from_pretrained(scr() + '/models--google--t5-large-ssm-nq/snapshots/1be57f9738601da4addf835ace7a2dad7e8750b4', local_files_only=True)
+    # sent
+    # return Tokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
     
     # return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=scr())
 

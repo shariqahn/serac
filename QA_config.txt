@@ -1,3 +1,6 @@
+hub/models--sentence-transformers--all-MiniLM-L6-v2/snapshots/8b3219a92973c328a8e22fadcfa821b5dc75636a/
+
+
 File "/home/gridsan/shossain/.pyenv/versions/3.7.9/lib/python3.7/runpy.py", line 193, in _run_module_as_main
     "__main__", mod_spec)
   File "/home/gridsan/shossain/.pyenv/versions/3.7.9/lib/python3.7/runpy.py", line 85, in _run_code

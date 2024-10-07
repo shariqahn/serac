@@ -35,9 +35,9 @@ def run(config):
 
     model = models.get_model(config) # gets pretrained model
     tokenizer = models.get_tokenizer(config)
-    inputs = tokenizer("Hello, how are you?", return_tensors="pt")
-    reply_ids = model.generate(**inputs)
-    print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
+    # inputs = tokenizer("Hello, how are you?", return_tensors="pt")
+    # reply_ids = model.generate(**inputs)
+    # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
     if config.task == "qa" or config.task == "zsre":
         from data_classes.zsre import Seq2SeqAugmentedKILT
 
@@ -114,7 +114,6 @@ def run(config):
         post_out = (tokenizer.decode(reply_ids[0], skip_special_tokens=True))
         LOG.info(f"Post-edit output: {post_out}")
         assert torch.allclose(orig_logits, post_logits)
-        pdb.set_trace()
 
         orig_param = [p for (n, p) in alg.model.named_parameters() if n == config.model.inner_params[-1]][0]
         edited_param = [p for (n, p) in edited.model.named_parameters() if n == config.model.inner_params[-1]][0]
@@ -142,7 +141,6 @@ def run(config):
         else:
             trainer = EditTrainer(alg, config, train_set, val_set)
         LOG.info(f"Built trainer: {trainer}")
-        pdb.set_trace()
         trainer.run()
 
     

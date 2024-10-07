@@ -64,10 +64,12 @@ If this repository is useful for your own research, you can cite our work with t
 
 - run training script: 
     - batch: `LLsub serac.sh -g volta:1`
+        - with cpus: `LLsub serac.sh -s 1 -g volta:1`
     - serial: 
         ```
         LLsub -i -g volta:1
-        . env/bin/activate
+        conda deactivate
+        conda activate cenv
         export HYDRA_FULL_ERROR=1
         python -m run +alg=rep +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true
         ```
@@ -76,5 +78,12 @@ If this repository is useful for your own research, you can cite our work with t
 <!-- left off comment is where i left off hehe -->
 
 ## Set Up Log
-- install SQLite in home dir via source code link so it's installed only in your home dir
-    - might be better to use a module?
+- use conda so sqlite dependency is set up properly
+- match python version of serac: 3.7.9
+- upgrade pip to the latest version to ensure dependencies are compatible and resolved in an efficient manner
+- install dependencies. This takes a long time because pip has to resolve incompatibilities
+- download models in specific state... dir
+    - open download partition
+    - will automatically download in state... dir (?)
+    - copy to local
+    - running download_models.sh in serac dir will delete existing downloaded models and download the necessary ones for the selected experiment config

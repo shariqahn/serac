@@ -52,15 +52,19 @@ class REP(EditableModel):
         # prob why its the same model as the experiment model
         if replacement is None:
             # self.replacement_tok = transformers.AutoTokenizer.from_pretrained(config.model.small_name, cache_dir=scr())
-            # sent:
-            self.replacement_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+            # # sent:
+            # self.replacement_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
+            # QA
+            self.replacement_tok = transformers.AutoTokenizer.from_pretrained(scr() + '/hub/models--t5-small/snapshots/df1b051c49625cf57a3d0d8d3863ed4d13564fe4', local_files_only=True)
             if self.config.rep.freeze_cntr:
                 self.replacement = None
             else:
                 if config.model.class_name == "BertClassifier":
                     self.replacement = BertClassifier(config.model.small_name)
                 else:
-                    self.replacement = getattr(transformers, config.model.class_name).from_pretrained(config.model.small_name, cache_dir=scr())
+                    # self.replacement = getattr(transformers, config.model.class_name).from_pretrained(config.model.small_name, cache_dir=scr())
+                    # QA
+                    self.replacement = getattr(transformers, config.model.class_name).from_pretrained(scr() + '/hub/models--t5-small/snapshots/df1b051c49625cf57a3d0d8d3863ed4d13564fe4', local_files_only=True)
                 if self.replacement_tok.sep_token is None and "gpt" not in self.model.name_or_path.lower():
                     add_sep(self.replacement_tok, self.replacement)
                 if self.replacement_tok.pad_token is None:

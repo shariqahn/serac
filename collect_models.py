@@ -35,24 +35,29 @@ def run(config):
     np.random.seed(config.seed)
     torch.manual_seed(config.seed)
 
-    # pdb.set_trace()
     model = models.get_model(config, download=True)
-    # print('got model')
     tokenizer = models.get_tokenizer(config, download=True)
 
     inputs = tokenizer("Hello, how are you?", return_tensors="pt")
     reply_ids = model.generate(**inputs)
     print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
-    pdb.set_trace()
     
-    # for rep init:
+    # for rep init
+    # note that configs are diff for diff experiments, so you might need to download something new for
+    #   each experiment
     # classifier
-    snapshot_download(repo_id=config.rep.cls_name, local_files_only=False)
+    snapshot_download(repo_id=config.rep.cls_name)
+    print('downloaded ' + config.rep.cls_name)
     # replacement
-    snapshot_download(repo_id=config.model.small_name, local_files_only=False)
-                
+    snapshot_download(repo_id=config.model.small_name)
+    print('downloaded ' + config.model.small_name)
+
+                 
     
-    # if config.task == "qa" or config.task == "zsre":
+    if config.task == "qa" or config.task == "zsre":
+        # from build_distr_matrix for zsre dataset:
+        from sentence_transformers import SentenceTransformer
+        snapshot_download(repo_id='sentence-transformers/all-MiniLM-L6-v2')
     #     from data_classes.zsre import Seq2SeqAugmentedKILT
 
     #     if config.eval_only:
