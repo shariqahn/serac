@@ -48,11 +48,11 @@ data:
   rephrase: true
   zsre_nq: false
   zsre_impl: false
-  zsre_impl_path: ${hydra:runtime.cwd}/data/zsre/impl_{}.json
+  zsre_impl_path: ${hydra:runtime.cwd}/data/zsre_dummy/impl_{}.json
   zsre_yn: false
-  zsre_yn_path: ${hydra:runtime.cwd}/data/zsre/zsre_yn_{}.txt
+  zsre_yn_path: ${hydra:runtime.cwd}/data/zsre_dummy/zsre_yn_{}.txt
   zsre_eval_idxs: null
-  zsre_path: ${hydra:runtime.cwd}/data/zsre/structured_zeroshot-{}-new_annotated_final.jsonl
+  zsre_path: ${hydra:runtime.cwd}/data/zsre_dummy/structured_zeroshot-{}-new_annotated_final.jsonl
   nq_path: ${hydra:runtime.cwd}/data/nq
   wiki_webtext: true
   n_edits: 1
