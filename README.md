@@ -87,3 +87,20 @@ If this repository is useful for your own research, you can cite our work with t
     - will automatically download in state... dir (?)
     - copy to local
     - running download_models.sh in serac dir will delete existing downloaded models and download the necessary ones for the selected experiment config
+
+## Eval
+- trainer.py logs DD ("dn")
+    - QA: retain/edit_val
+- ES = edit success
+    - QA
+        - same as accuracy, % in scope outputs that were correct
+        - edit/acc_val
+
+### investigating difference from baseline for table 3
+- lr is the same as paper
+- "we default to the embedding-based classifier for SERAC for all experiments except FC, where cross-attention is especially useful"
+    - cross_attend is false in config
+- should be k=10 edits for both train and eval
+    - batch_size=10 val_batch_size=10 here and =5 for sent, which has k=5
+    - n_edits from config never used in QA code, only sent
+    - edit_bs: 1 in config - never used
