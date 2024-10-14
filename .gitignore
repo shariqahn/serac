@@ -2,7 +2,7 @@ __pycache__/
 env
 *.py[cod]
 .python-version
-outputs/2024-07*
+outputs/
 startJob.sh*
 *.log-*
 data/
