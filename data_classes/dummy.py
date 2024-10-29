@@ -18,18 +18,13 @@ if __name__ == '__main__':
 
 
     for split in ["train", "dev", "test"]:
-        print(zsre_path.format(split))
         with open(zsre_path.format(split)) as f:
             data = [json.loads(line) for line in f]
             for item in data:
-                for output in item['output']:
-                    output['answer'] = 'dummy'
-                    output['provenance'] = []
+                item['alternatives'] = ['dummy']
         with open(zsre_path.format(split), 'w') as f:
             for item in data:
                 f.write(json.dumps(item) + '\n')
 
 # todo 
-    # ck that provencance = [] is okay
-    # create separate config for this expeirment for now just changed the og for qa to the new dummy path
-    # restore old yn (?) files to their og form since i accidentally edited
+    # pass in dummy config as param rather than hard coding

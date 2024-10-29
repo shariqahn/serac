@@ -104,7 +104,6 @@ def get_model(config, download=False):
             cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
             snapshot_download(repo_id=config.model.name, cache_dir=cache_dir)
             model = ModelClass.from_pretrained(config.model.name, cache_dir=cache_dir)
-            print('downloaded '+config.model.name)
         else:
             model = ModelClass.from_pretrained(config.model.name, cache_dir=scr())
 
@@ -147,12 +146,10 @@ def get_model(config, download=False):
         raise ValueError(f"Params {bad_inner_params} do not exist in model of type {type(model)}.")
 
     if config.no_grad_layers is not None:
-        print('in no grad layers')
         if config.half:
             model.bfloat16()
 
         def upcast(mod):
-            print('upcast')
             modlist = None
             for child in mod.children():
                 if isinstance(child, nn.ModuleList):
@@ -180,7 +177,7 @@ def get_model(config, download=False):
             t.no_grad_layers = config.no_grad_layers
             if config.half and config.alg != "rep":
                 upcast(t)
-        print('after upcast')
+
         if config.half and config.alg != "rep":
             idxs = []
             for p in config.model.inner_params:
@@ -205,11 +202,9 @@ def get_tokenizer(config, download=False):
     if download:
         cache_dir="/state/partition1/user/" + getpass.getuser() + "/hug"
         snapshot_download(repo_id=tok_name, cache_dir=cache_dir)
-        print('downloaded '+tok_name)
         return getattr(transformers, config.model.tokenizer_class).from_pretrained(tok_name, cache_dir=cache_dir)
-    Tokenizer = getattr(transformers, config.model.tokenizer_class)
-    # QA
-    return Tokenizer.from_pretrained(scr() + '/models--google--t5-large-ssm-nq/snapshots/1be57f9738601da4addf835ace7a2dad7e8750b4', local_files_only=True)
+    # QA-hard
+    return getattr(transformers, config.model.tokenizer_class).from_pretrained(scr() + '/models--google--t5-large-ssm-nq/snapshots/1be57f9738601da4addf835ace7a2dad7e8750b4', local_files_only=True)
     # sent
     # return Tokenizer.from_pretrained(scr() + '/models--facebook--blenderbot_small-90M/snapshots/bbf60f5f68fd8789ac04bd1c20712233f3dc899f', local_files_only=True)
     

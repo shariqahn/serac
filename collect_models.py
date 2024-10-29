@@ -38,19 +38,16 @@ def run(config):
     model = models.get_model(config, download=True)
     tokenizer = models.get_tokenizer(config, download=True)
 
-    inputs = tokenizer("Hello, how are you?", return_tensors="pt")
-    reply_ids = model.generate(**inputs)
-    print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
+    # inputs = tokenizer("Hello, how are you?", return_tensors="pt")
+    # reply_ids = model.generate(**inputs)
+    # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
     
     # for rep init
-    # note that configs are diff for diff experiments, so you might need to download something new for
-    #   each experiment
-    # classifier
-    snapshot_download(repo_id=config.rep.cls_name)
-    print('downloaded ' + config.rep.cls_name)
-    # replacement
-    snapshot_download(repo_id=config.model.small_name)
-    print('downloaded ' + config.model.small_name)
+    if config.alg == "rep":
+        # classifier
+        snapshot_download(repo_id=config.rep.cls_name)
+        # replacement
+        snapshot_download(repo_id=config.model.small_name)
 
                  
     

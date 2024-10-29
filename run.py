@@ -33,6 +33,7 @@ def run(config):
     np.random.seed(config.seed)
     torch.manual_seed(config.seed)
 
+
     model = models.get_model(config) # gets pretrained model
     tokenizer = models.get_tokenizer(config)
     # inputs = tokenizer("Hello, how are you?", return_tensors="pt")
@@ -84,6 +85,7 @@ def run(config):
             alg.loc_masks = loc_batch["attention_mask"]
 
     if config.playground:
+        pdb.set_trace()
         path = '/home/gridsan/shossain/serac/outputs/2024-07-02_11-48-31_3983295539/models/blenderbot_small-90M.2024-07-02_11-48-31_3983295539'
         # archive = torch.load(path, map_location="cpu")
         archive = torch.load(path, map_location="cuda:0")
@@ -136,6 +138,13 @@ def run(config):
         # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
 
     else:
+        # Get saved model from previous run
+        if config.eval_only:
+            path = config.load_path
+            archive = torch.load(path, map_location="cuda:0")
+            alg.cuda()
+            alg.load_state_dict(archive['model'])
+            alg.eval()
         if config.alg == "rep" and config.rep.supervised:
             trainer = SupervisedTrainer(alg, config, train_set, val_set)
         else:

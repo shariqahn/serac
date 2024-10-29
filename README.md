@@ -65,17 +65,8 @@ If this repository is useful for your own research, you can cite our work with t
 - run training script: 
     - batch: `LLsub serac.sh -g volta:1`
         - with cpus: `LLsub serac.sh -s 1 -g volta:1`
-    - serial: 
-        ```
-        LLsub -i -g volta:1
-        conda deactivate
-        conda activate cenv
-        export HYDRA_FULL_ERROR=1
-        python -m run +alg=rep +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true
-        ```
+    - serial: `LLsub -i -g volta:1` 
         - download: `LLsub -i -q download`
-
-<!-- left off comment is where i left off hehe -->
 
 ## Set Up Log
 - use conda so sqlite dependency is set up properly
@@ -95,12 +86,3 @@ If this repository is useful for your own research, you can cite our work with t
     - QA
         - same as accuracy, % in scope outputs that were correct
         - edit/acc_val
-
-### investigating difference from baseline for table 3
-- lr is the same as paper
-- "we default to the embedding-based classifier for SERAC for all experiments except FC, where cross-attention is especially useful"
-    - cross_attend is false in config
-- should be k=10 edits for both train and eval
-    - batch_size=10 val_batch_size=10 here and =5 for sent, which has k=5
-    - n_edits from config never used in QA code, only sent
-    - edit_bs: 1 in config - never used
