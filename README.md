@@ -56,17 +56,33 @@ If this repository is useful for your own research, you can cite our work with t
 - set config params like batch is done here: 
 `python -m run +alg=rep +experiment=sent +model=blender-small batch_size=5 val_batch_size=5`
 
+## TODO: some of the runs had the wrong data - make sure you make note of/delete those when you organize log files
+
+## Run training script: 
+**NOTE: Code will not finish running just overnight**
+- batch: `LLsub serac.sh -g volta:1`
+    - with cpus: `LLsub serac.sh -s 1 -g volta:1`
+- serial: `LLsub -i -g volta:1` 
+    - download: `LLsub -i -q download`
+
+## Integrating with TOFU log
+- edit QA task doesn't seem to fine-tune on dataset before doing editing
+- start w 5%
+- doesn't seem to finetune on world facts of real authors, just compares to baseline
+- finetunes on fictitious author data prior to unlearning
+- perturb is incorrect version of answer that is part of truth ratio calc
+- need to 
+    - get editing to work w Llama, since thats what TOFU uses
+    - refactor TOFU dataset to work w edit code
+
 ## Models
 - fb blenderbot: for chatbots
 - bert: masked language modeling (MLM), next sentence prediction; usually used for fine-tuning
+- rep alg:
+    - self.replacement is small model for counterfactual
+    - self.model is large model for base
 
 - dataset: "ent" = "entity" = topic were evaluating sentiment on
-
-- run training script: 
-    - batch: `LLsub serac.sh -g volta:1`
-        - with cpus: `LLsub serac.sh -s 1 -g volta:1`
-    - serial: `LLsub -i -g volta:1` 
-        - download: `LLsub -i -q download`
 
 ## Set Up Log
 - use conda so sqlite dependency is set up properly
