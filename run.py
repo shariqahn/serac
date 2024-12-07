@@ -145,6 +145,7 @@ def run(config):
             alg.cuda()
             alg.load_state_dict(archive['model'])
             alg.eval()
+            
         if config.alg == "rep" and config.rep.supervised:
             trainer = SupervisedTrainer(alg, config, train_set, val_set)
         else:
