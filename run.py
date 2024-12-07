@@ -138,14 +138,13 @@ def run(config):
         # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
 
     else:
-        # Get saved model from previous run
-        if config.eval_only:
-            path = config.load_path
-            archive = torch.load(path, map_location="cuda:0")
-            alg.cuda()
-            alg.load_state_dict(archive['model'])
-            alg.eval()
-            
+        # # Get saved model from previous run
+        # if config.eval_only:
+        #     path = config.load_path
+        #     archive = torch.load(path, map_location="cuda:0")
+        #     alg.cuda()
+        #     alg.load_state_dict(archive['model'])
+        #     alg.eval()
         if config.alg == "rep" and config.rep.supervised:
             trainer = SupervisedTrainer(alg, config, train_set, val_set)
         else:
