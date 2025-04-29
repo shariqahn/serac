@@ -39,6 +39,7 @@ save: False
 log_errors: False
 unlikelihood: True
 playground: False
+load_path: null
 
 model:
   pt: null

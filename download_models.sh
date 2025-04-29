@@ -27,7 +27,7 @@ ls /state/partition1/user/$USER
 # qa (not qa-hard i think?):
 # python -m collect_models +alg=rep +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true
 
-# collect_models.py ensures the models are downloaded as opposed to the usual run.py
+# calling collect_models.py ensures the models are downloaded as opposed to the usual run.py
 python -m collect_models +alg=gtn +experiment=qa +model=t5large batch_size=10 val_batch_size=10 data.zsre_impl=true data.zsre_yn=true data.hard_neg=true gtn.descent=True
 
 # Copy the model from HF_HOME into HF_LOCAL_DIR

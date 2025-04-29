@@ -74,6 +74,8 @@ If this repository is useful for your own research, you can cite our work with t
 - need to 
     - get editing to work w Llama, since thats what TOFU uses
     - refactor TOFU dataset to work w edit code
+- data
+    - yn, impl data is used as part of training, but only for QA-hard setting. maybe can start w regular QA
 
 ## Models
 - fb blenderbot: for chatbots

@@ -1,0 +1,198 @@
+/home/gridsan/shossain/serac/run.py:25: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path='config', config_name='config_eval')
+[2024-11-04 19:55:16,110][__main__][INFO] - 
+
+alg: rep
+lr: 1.0e-05
+edit_lr: 0.01
+seed: 0
+debug: false
+model_save_pt: 5000
+edit_bs: 1
+silent: false
+max_iters: 1000000
+log_interval: 100
+val_interval: 5000
+lr_lr: 0.0
+batch_size: 10
+val_batch_size: 10
+accumulate_bs: 10
+cedit: 0.1
+cloc: 1.0
+cbase: 1.0
+val_steps: 500
+device: cuda
+base_loss: distill
+oracle: false
+train: true
+train_base: false
+opt: Adam
+single_batch: false
+archive: null
+grad_clip: 100.0
+ref: null
+early_stop_patience: 40000
+early_stop_key: loss/total_edit_val
+dropout: 0.0
+tokenizer: null
+results_dir: null
+no_grad_layers: null
+eval_only: true
+half: false
+save: false
+log_errors: false
+unlikelihood: true
+playground: false
+load_path: ${hydra:runtime.cwd}/outputs/idk_40/models/t5-large-ssm-nq.2024-10-14_00-04-48_8626458968
+model:
+  pt: null
+  name: google/t5-large-ssm-nq
+  class_name: AutoModelForSeq2SeqLM
+  tokenizer_class: AutoTokenizer
+  tokenizer_name: google/t5-large-ssm-nq
+  inner_params:
+  - encoder.block.22.layer.1.DenseReluDense.wi.weight
+  - encoder.block.22.layer.1.DenseReluDense.wo.weight
+  - encoder.block.23.layer.1.DenseReluDense.wi.weight
+  - encoder.block.23.layer.1.DenseReluDense.wo.weight
+  - decoder.block.22.layer.2.DenseReluDense.wi.weight
+  - decoder.block.22.layer.2.DenseReluDense.wo.weight
+  - decoder.block.23.layer.2.DenseReluDense.wi.weight
+  - decoder.block.23.layer.2.DenseReluDense.wo.weight
+  small_name: t5-small
+data:
+  path: null
+  rephrase: true
+  zsre_nq: false
+  zsre_impl: true
+  zsre_impl_path: ${hydra:runtime.cwd}/data/zsre/impl_{}.json
+  zsre_yn: true
+  zsre_yn_path: ${hydra:runtime.cwd}/data/zsre/zsre_yn_{}.txt
+  zsre_eval_idxs: null
+  zsre_path: ${hydra:runtime.cwd}/data/zsre/structured_zeroshot-{}-new_annotated_final.jsonl
+  nq_path: ${hydra:runtime.cwd}/data/nq
+  wiki_webtext: true
+  n_edits: 1
+  hard_neg: true
+  hard_neg_neighbors: 100
+  hard_neg_exclude: 25
+  hard_neg_temp: 0.1
+  hard_neg_prob: 0.5
+  flip_inner_outer: false
+  sent_eval_sample: false
+  n_outer_max: null
+eval:
+  verbose: true
+  log_interval: 100
+  final_eval: true
+rep:
+  cls_name: distilbert-base-cased
+  cls_class: AutoModel
+  supervised: true
+  cos: false
+  freeze: null
+  square: true
+  bound_embeds: false
+  use_all_negatives: false
+  freeze_cntr: false
+  dist_heads: 1
+  cross_attend: false
+  lora: null
+  soft_weighting: false
+  checkpoint_grad: false
+task: qa
+dataset: zsre
+
+
+[2024-11-04 19:55:16,112][__main__][INFO] - Project base directory: /home/gridsan/shossain/serac
+[2024-11-04 19:55:19,620][models][INFO] - Loading model class <class 'transformers.models.auto.modeling_auto.AutoModelForSeq2SeqLM'> with name google/t5-large-ssm-nq from cache dir /home/gridsan/shossain/serac/scr/shossain
+[2024-11-04 19:56:18,479][models][INFO] - Set 242 dropout modules to p=0.0
+[2024-11-04 19:56:21,557][data_classes.zsre][INFO] - Empty test yn questions: 0
+[2024-11-04 19:56:22,229][data_classes.zsre][INFO] - Data size 24968; loc data size 24968
+[2024-11-04 19:56:53,593][sentence_transformers.SentenceTransformer][INFO] - Load pretrained SentenceTransformer: /home/gridsan/shossain/serac/scr/shossain/hub/models--sentence-transformers--all-MiniLM-L6-v2/snapshots/fa97f6e7cb1a59073dff9e6b13e2715cf7475ac9
+[2024-11-04 19:57:00,739][sentence_transformers.SentenceTransformer][INFO] - Use pytorch device: cuda
+/home/gridsan/shossain/.conda/envs/cenv/lib/python3.7/site-packages/hydra/_internal/hydra.py:127: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  configure_logging=with_log_configuration,
+Batches:   0%|          | 0/98 [00:00<?, ?it/s]Batches:   1%|          | 1/98 [00:11<18:16, 11.30s/it]Batches:   2%|▏         | 2/98 [00:11<07:37,  4.76s/it]Batches:   6%|▌         | 6/98 [00:11<01:42,  1.11s/it]Batches:  11%|█         | 11/98 [00:11<00:41,  2.08it/s]Batches:  16%|█▋        | 16/98 [00:11<00:22,  3.65it/s]Batches:  21%|██▏       | 21/98 [00:11<00:13,  5.72it/s]Batches:  27%|██▋       | 26/98 [00:12<00:08,  8.37it/s]Batches:  33%|███▎      | 32/98 [00:12<00:05, 12.28it/s]Batches:  39%|███▉      | 38/98 [00:12<00:03, 16.78it/s]Batches:  45%|████▍     | 44/98 [00:12<00:02, 21.70it/s]Batches:  51%|█████     | 50/98 [00:12<00:01, 26.71it/s]Batches:  56%|█████▌    | 55/98 [00:12<00:01, 30.12it/s]Batches:  62%|██████▏   | 61/98 [00:12<00:01, 35.05it/s]Batches:  68%|██████▊   | 67/98 [00:12<00:00, 39.46it/s]Batches:  74%|███████▍  | 73/98 [00:12<00:00, 43.57it/s]Batches:  81%|████████  | 79/98 [00:13<00:00, 47.18it/s]Batches:  87%|████████▋ | 85/98 [00:13<00:00, 49.46it/s]Batches:  93%|█████████▎| 91/98 [00:13<00:00, 51.87it/s]Batches: 100%|██████████| 98/98 [00:13<00:00, 55.97it/s]Batches: 100%|██████████| 98/98 [00:13<00:00,  7.33it/s]
+Batches:   0%|          | 0/98 [00:00<?, ?it/s]Batches:   3%|▎         | 3/98 [00:00<00:03, 29.04it/s]Batches:   7%|▋         | 7/98 [00:00<00:02, 32.61it/s]Batches:  11%|█         | 11/98 [00:00<00:02, 32.94it/s]Batches:  15%|█▌        | 15/98 [00:00<00:02, 34.97it/s]Batches:  20%|██        | 20/98 [00:00<00:02, 37.20it/s]Batches:  24%|██▍       | 24/98 [00:00<00:01, 38.06it/s]Batches:  30%|██▉       | 29/98 [00:00<00:01, 39.86it/s]Batches:  35%|███▍      | 34/98 [00:00<00:01, 41.20it/s]Batches:  40%|███▉      | 39/98 [00:01<00:02, 25.69it/s]Batches:  45%|████▍     | 44/98 [00:01<00:01, 29.71it/s]Batches:  50%|█████     | 49/98 [00:01<00:01, 33.44it/s]Batches:  55%|█████▌    | 54/98 [00:01<00:01, 36.78it/s]Batches:  61%|██████    | 60/98 [00:01<00:00, 40.79it/s]Batches:  66%|██████▋   | 65/98 [00:01<00:00, 43.07it/s]Batches:  72%|███████▏  | 71/98 [00:01<00:00, 46.00it/s]Batches:  79%|███████▊  | 77/98 [00:02<00:00, 47.85it/s]Batches:  85%|████████▍ | 83/98 [00:02<00:00, 50.09it/s]Batches:  91%|█████████ | 89/98 [00:02<00:00, 52.78it/s]Batches:  99%|█████████▉| 97/98 [00:02<00:00, 59.20it/s]Batches: 100%|██████████| 98/98 [00:02<00:00, 42.04it/s][2024-11-04 19:57:38,530][utils][INFO] - Built hard negative distribution matrix of size torch.Size([24968, 75])
+[2024-11-04 19:57:38,791][__main__][INFO] - Loading class REP from module <module 'algs.rep' from '/home/gridsan/shossain/serac/algs/rep.py'>
+
+Some weights of the model checkpoint at /home/gridsan/shossain/serac/scr/shossain/hub/models--distilbert-base-cased/snapshots/6ea81172465e8b0ad3fddeed32b986cdcdcffcf0 were not used when initializing DistilBertModel: ['vocab_projector.weight', 'vocab_transform.bias', 'vocab_layer_norm.weight', 'vocab_projector.bias', 'vocab_transform.weight', 'vocab_layer_norm.bias']
+- This IS expected if you are initializing DistilBertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing DistilBertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2024-11-04 19:57:41,667][utils][INFO] - Set 13 dropout modules to p=0.0
+Using sep_token, but it is not set yet.
+[2024-11-04 19:57:44,825][utils][INFO] - Set 62 dropout modules to p=0.0
+[2024-11-04 19:58:01,470][__main__][INFO] - Loaded model from /home/gridsan/shossain/serac/outputs/idk_40/models/t5-large-ssm-nq.2024-10-14_00-04-48_8626458968
+[2024-11-04 19:58:01,530][__main__][INFO] - Built trainer: <trainer.SupervisedTrainer object at 0x7eff89d1cb90>
+[2024-11-04 19:58:01,530][trainer][INFO] - Beginning evaluation for 2496 batches...
+[2024-11-04 19:58:48,647][trainer][INFO] - Batch 100/2496             edit: 0.54000      retain_pre:  retain_post:  retain_delta: 0.99800      it_time: 0.4712
+[2024-11-04 19:59:30,916][trainer][INFO] - Batch 200/2496             edit: 0.52650      retain_pre:  retain_post:  retain_delta: 0.99550      it_time: 0.4469
+[2024-11-04 20:00:13,305][trainer][INFO] - Batch 300/2496             edit: 0.53900      retain_pre:  retain_post:  retain_delta: 0.99433      it_time: 0.4392
+[2024-11-04 20:00:55,900][trainer][INFO] - Batch 400/2496             edit: 0.53850      retain_pre:  retain_post:  retain_delta: 0.99375      it_time: 0.4359
+[2024-11-04 20:01:38,047][trainer][INFO] - Batch 500/2496             edit: 0.53880      retain_pre:  retain_post:  retain_delta: 0.99400      it_time: 0.4330
+[2024-11-04 20:02:20,056][trainer][INFO] - Batch 600/2496             edit: 0.53933      retain_pre:  retain_post:  retain_delta: 0.99267      it_time: 0.4309
+[2024-11-04 20:03:02,187][trainer][INFO] - Batch 700/2496             edit: 0.54286      retain_pre:  retain_post:  retain_delta: 0.99300      it_time: 0.4295
+[2024-11-04 20:03:44,966][trainer][INFO] - Batch 800/2496             edit: 0.54250      retain_pre:  retain_post:  retain_delta: 0.99363      it_time: 0.4293
+[2024-11-04 20:04:27,479][trainer][INFO] - Batch 900/2496             edit: 0.54356      retain_pre:  retain_post:  retain_delta: 0.99378      it_time: 0.4288
+[2024-11-04 20:05:09,324][trainer][INFO] - Batch 1000/2496            edit: 0.54330      retain_pre:  retain_post:  retain_delta: 0.99440      it_time: 0.4278
+[2024-11-04 20:05:51,485][trainer][INFO] - Batch 1100/2496            edit: 0.54591      retain_pre:  retain_post:  retain_delta: 0.99445      it_time: 0.4272
+[2024-11-04 20:06:33,383][trainer][INFO] - Batch 1200/2496            edit: 0.54633      retain_pre:  retain_post:  retain_delta: 0.99442      it_time: 0.4265
+[2024-11-04 20:07:15,834][trainer][INFO] - Batch 1300/2496            edit: 0.54592      retain_pre:  retain_post:  retain_delta: 0.99469      it_time: 0.4264
+[2024-11-04 20:07:58,313][trainer][INFO] - Batch 1400/2496            edit: 0.54464      retain_pre:  retain_post:  retain_delta: 0.99436      it_time: 0.4263
+[2024-11-04 20:08:40,536][trainer][INFO] - Batch 1500/2496            edit: 0.54620      retain_pre:  retain_post:  retain_delta: 0.99447      it_time: 0.4260
+[2024-11-04 20:09:22,899][trainer][INFO] - Batch 1600/2496            edit: 0.54575      retain_pre:  retain_post:  retain_delta: 0.99431      it_time: 0.4259
+[2024-11-04 20:10:05,534][trainer][INFO] - Batch 1700/2496            edit: 0.54435      retain_pre:  retain_post:  retain_delta: 0.99447      it_time: 0.4259
+[2024-11-04 20:10:48,176][trainer][INFO] - Batch 1800/2496            edit: 0.54478      retain_pre:  retain_post:  retain_delta: 0.99456      it_time: 0.4259
+[2024-11-04 20:11:30,330][trainer][INFO] - Batch 1900/2496            edit: 0.54537      retain_pre:  retain_post:  retain_delta: 0.99453      it_time: 0.4257
+[2024-11-04 20:12:12,769][trainer][INFO] - Batch 2000/2496            edit: 0.54510      retain_pre:  retain_post:  retain_delta: 0.99415      it_time: 0.4256
+[2024-11-04 20:12:55,981][trainer][INFO] - Batch 2100/2496            edit: 0.54600      retain_pre:  retain_post:  retain_delta: 0.99410      it_time: 0.4259
+[2024-11-04 20:13:38,800][trainer][INFO] - Batch 2200/2496            edit: 0.54568      retain_pre:  retain_post:  retain_delta: 0.99400      it_time: 0.4260
+[2024-11-04 20:14:20,936][trainer][INFO] - Batch 2300/2496            edit: 0.54483      retain_pre:  retain_post:  retain_delta: 0.99378      it_time: 0.4258
+[2024-11-04 20:15:02,865][trainer][INFO] - Batch 2400/2496            edit: 0.54483      retain_pre:  retain_post:  retain_delta: 0.99371      it_time: 0.4256
+[2024-11-04 20:15:43,524][trainer][INFO] - Batch 2496/2496            edit: 0.54543      retain_pre:  retain_post:  retain_delta: 0.99387      it_time: 0.4255
+[2024-11-04 20:15:43,525][trainer][INFO] - Step 0:
+[2024-11-04 20:15:43,526][trainer][INFO] - sims/mean_edit_val  :  0.55054
+sims/pos_edit_val   :  0.55469
+sims/neg_edit_val   :  0.44531
+params/scale_edit_val:  1.00000
+sims/mean_loc_val   :  0.02054
+sims/pos_loc_val    :  0.00617
+sims/neg_loc_val    :  0.99383
+params/scale_loc_val:  1.00000
+cls/acc_val         :  0.77492
+cls/pos_acc_val     :  0.55469
+cls/neg_acc_val     :  0.99515
+loss/cntr_val       :  2.03233
+loss/cls_val        :  4.51214
+retain/edit_val     :  0.99387
+kl/edit_val         :  0.03945
+cntr/acc_val        :  0.55096
+cntr/log_prob_val   : -2.03233
+cntr/prob_val       :  0.17651
+time/edit_val       :  0.05111
+stat_dump/acc_val   :  0.54543
+stat_dump/log_prob_val: -5.52056
+stat_dump/prob_val  :  0.03563
+stat_dump/n_tokens_val:  42.13101
+stat_dump/nll_val   :  5.52056
+loss/total_supervised_val:  4.71538
+memory/alloc_max_val:  6186397193.64103
+memory/res_max_val  :  7313732739.28205
+loss/edit_val       :  5.52056
+loss/loc_val        :  0.03945
+edit/acc_val        :  0.54543
+edit/log_prob_val   : -5.52056
+edit/prob_val       :  0.03563
+loss/total_val      :  0.59151
+loss/total_edit_val :  0.59151
+eval_time/elapsed   :  1061.99391
+eval_time/average   :  0.42548
+[2024-11-04 20:15:43,592][trainer][INFO] - Wrote results to:
+[2024-11-04 20:15:43,592][trainer][INFO] - /home/gridsan/shossain/serac/outputs/2024-11-04_19-55-15_8931089897/results.json
+[2024-11-04 20:15:43,670][trainer][INFO] - Copied to:
+[2024-11-04 20:15:43,670][trainer][INFO] - /home/gridsan/shossain/serac/outputs/2024-11-04_19-55-15_8931089897/results_latest.json

@@ -22,7 +22,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s [%(filename)s:%(lineno)d
 LOG = logging.getLogger(__name__)
 
 
-@hydra.main(config_path='config', config_name='config')
+@hydra.main(config_path='config', config_name='config_eval')
 # load models, data, and start training
 def run(config):
     LOG.info(f"\n\n{OmegaConf.to_yaml(config)}\n")
@@ -138,13 +138,14 @@ def run(config):
         # print(tokenizer.decode(reply_ids[0], skip_special_tokens=True))
 
     else:
-        # # Get saved model from previous run
-        # if config.eval_only:
-        #     path = config.load_path
-        #     archive = torch.load(path, map_location="cuda:0")
-        #     alg.cuda()
-        #     alg.load_state_dict(archive['model'])
-        #     alg.eval()
+        # Get saved model from previous run
+        if config.eval_only:
+            path = config.load_path
+            archive = torch.load(path, map_location="cuda:0")
+            alg.cuda()
+            alg.load_state_dict(archive['model'])
+            LOG.info(f"Loaded model from {config.load_path}")
+            alg.eval()
         if config.alg == "rep" and config.rep.supervised:
             trainer = SupervisedTrainer(alg, config, train_set, val_set)
         else:
